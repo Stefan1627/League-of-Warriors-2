@@ -31,7 +31,9 @@ public class Game {
         this.accounts = accounts;
         setAccountAndCharacter();
 
-        generateLimits();
+        //generateLimits();
+        length = 5;
+        width = 5;
         generateMap();
     }
 
@@ -81,7 +83,7 @@ public class Game {
         enemyFight.startFight(currCharacter, map.getCurrentCell().getEnemy());
     }
 
-    private void handleCellEvent() {
+    public void handleCellEvent() {
         switch (map.getOldType()) {
             case CallEntityType.VOID -> {
 

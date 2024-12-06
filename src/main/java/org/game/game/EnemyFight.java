@@ -86,7 +86,7 @@ public class EnemyFight {
                 break;
             }
 
-        turn = 2;
+        turn = 1;
         System.out.println("End of turn");
     }
 
@@ -111,7 +111,7 @@ public class EnemyFight {
                 break;
         }
 
-        turn = 1;
+        turn = 2;
         System.out.println("End of turn");
     }
 
@@ -211,5 +211,15 @@ public class EnemyFight {
             }
         }
         return min == character.getMana();
+    }
+
+    public String printClass(Spell spell) {
+        if (spell.getClass() == Fire.class) {
+            return "Fire";
+        } else if (spell.getClass() == Ice.class) {
+            return "Ice";
+        } else {
+            return "Earth";
+        }
     }
 }

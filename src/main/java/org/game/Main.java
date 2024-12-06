@@ -82,6 +82,13 @@ public class Main {
             game.getMap().goSouth();
         }
 
+        game.getMap().getCurrentCell().setEnemy();
+        game.getMap().getCurrentCell().getEnemy().setHealth(1);
+
+        game.handleCellEvent();
+
+        System.out.println(game.getCurrCharacter().getCurrExp());
+
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
     }
