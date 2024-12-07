@@ -1,6 +1,3 @@
-de facut output la fight mai aesthetic
-
-
 de implement game.run cum trebuie
 
 de handleVoidCell

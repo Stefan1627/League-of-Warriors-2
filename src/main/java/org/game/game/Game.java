@@ -23,6 +23,7 @@ public class Game {
     private Directions invalidDirection;
     private int length;
     private int width;
+    private boolean gameOver;
 
     public Game() {
     }
@@ -36,6 +37,30 @@ public class Game {
         length = 5;
         width = 5;
         generateMap();
+        map.printMap();
+
+        int choice;
+        int limits;
+        while (true) {
+            limits = printAvailableOptions();
+            choice = SCANNER.nextInt();
+            if (choice == 5)
+                break;
+
+            if (choice < 1 || choice > limits)
+                continue;
+
+            switch (choice) {
+                case 1 -> map.goNorth();
+                case 2 -> map.goWest();
+                case 3 -> map.goEast();
+                case 4 -> map.goSouth();
+            }
+
+            handleCellEvent();
+            if(gameOver)
+                break;
+        }
     }
 
     private void setAccountAndCharacter() {
@@ -82,13 +107,13 @@ public class Game {
     private void handleEnemyMeeting() {
         EnemyFight enemyFight = new EnemyFight();
         System.out.println(currCharacter);
-        enemyFight.startFight(currCharacter, map.getCurrentCell().getEnemy());
+        gameOver = enemyFight.startFight(currCharacter, map.getCurrentCell().getEnemy());
     }
 
     public void handleCellEvent() {
         switch (map.getOldType()) {
             case CallEntityType.VOID -> {
-
+                // invalidDirection ia o valoare;
             }
             case CallEntityType.PORTAL -> {
                 currCharacter.setCurrExp(currCharacter.getCurrExp() + currLvl * 5);
@@ -110,5 +135,44 @@ public class Game {
         currCharacter.setStrength(RANDOM.nextInt(1,11));
         currCharacter.setDexterity(RANDOM.nextInt(1,11));
         currCharacter.setCharisma(RANDOM.nextInt(1,11));
+    }
+
+    public int printAvailableOptions() {
+        int currX = map.getCurrentCell().getRow();
+        int currY = map.getCurrentCell().getCol();
+        int index = 1;
+
+        System.out.println("Available options, choose one:");
+        for (Directions direction : Directions.values()) {
+            if (invalidDirection == direction)
+                continue;
+
+            switch (direction) {
+                case North -> {
+                    if (currX == 0) break;
+                    System.out.println(index + ". Go " + direction);
+                    index++;
+                }
+                case West -> {
+                    if (currY == length - 1) break;
+                    System.out.println(index + ". Go " + direction);
+                    index++;
+                }
+                case East -> {
+                    if (currY == width - 1) break;
+                    System.out.println(index + ". Go " + direction);
+                    index++;
+                }
+                case South -> {
+                    if (currX == length - 1) break;
+                    System.out.println(index + ". Go " + direction);
+                    index++;
+                }
+            }
+        }
+
+        System.out.println("Special options, please press '5' to exit.");
+        System.out.println("5. Exit");
+        return index;
     }
 }

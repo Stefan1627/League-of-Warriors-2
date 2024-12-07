@@ -22,7 +22,7 @@ public class EnemyFight {
         turn = 1;
     }
 
-    public void startFight(Character character, Enemy enemy) {
+    public boolean startFight(Character character, Enemy enemy) {
         System.out.println(character);
         character.generateSpells();
         enemy.generateSpells();
@@ -57,6 +57,8 @@ public class EnemyFight {
             System.out.println("Congrats! You won the fight");
             character.wonFight();
         }
+
+        return characterDead;
     }
 
     public void attackEnemy(Character character, Enemy enemy) {
