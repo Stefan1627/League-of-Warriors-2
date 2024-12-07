@@ -18,7 +18,7 @@ import java.util.Random;
         @JsonSubTypes.Type(value = Mage.class, name = "Mage"),
         @JsonSubTypes.Type(value = Rogue.class, name = "Rogue")
 })
-public class Character extends Entity{
+public abstract class Character extends Entity{
     @JsonProperty("name")
     private String name;
     @JsonProperty("experience")
@@ -36,6 +36,7 @@ public class Character extends Entity{
 
     @Override
     public int getDamage() {
+        System.out.println("E prost");
         return 0;
     }
 
@@ -46,7 +47,9 @@ public class Character extends Entity{
         setCurrExp(getCurrExp() + rand.nextInt(21));
     }
 
-    public void evolve() {}
+    public void evolve() {
+        System.out.println("Evolving " + getName());
+    }
 
     @Override
     public String toString() {

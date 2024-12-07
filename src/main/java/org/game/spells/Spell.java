@@ -15,7 +15,7 @@ public abstract class Spell {
 
     @Override
     public String toString() {
-        return "damage= " + damage +
-                ", mana= " + mana;
+        return "damage = " + damage +
+                ", mana = " + mana;
     }
 }

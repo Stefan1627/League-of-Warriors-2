@@ -30,6 +30,7 @@ public class Game {
     public void run(final ArrayList<Account> accounts) {
         this.accounts = accounts;
         setAccountAndCharacter();
+        setCharacterAttributes();
 
         //generateLimits();
         length = 5;
@@ -80,6 +81,7 @@ public class Game {
 
     private void handleEnemyMeeting() {
         EnemyFight enemyFight = new EnemyFight();
+        System.out.println(currCharacter);
         enemyFight.startFight(currCharacter, map.getCurrentCell().getEnemy());
     }
 
@@ -102,5 +104,11 @@ public class Game {
                 currCharacter.setHealth(100);
             }
         }
+    }
+
+    public void setCharacterAttributes() {
+        currCharacter.setStrength(RANDOM.nextInt(1,11));
+        currCharacter.setDexterity(RANDOM.nextInt(1,11));
+        currCharacter.setCharisma(RANDOM.nextInt(1,11));
     }
 }

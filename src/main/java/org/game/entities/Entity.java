@@ -50,9 +50,19 @@ public abstract class Entity implements Battle {
                 continue;
             }
             System.out.print(i + ". ");
-            System.out.print(spell.getClass() + " ");
+            System.out.print(printClass(spell) + " ");
             System.out.println(spell);
             i++;
+        }
+    }
+
+    public String printClass(Spell spell) {
+        if (spell.getClass() == Fire.class) {
+            return "Fire";
+        } else if (spell.getClass() == Ice.class) {
+            return "Ice";
+        } else {
+            return "Earth";
         }
     }
 

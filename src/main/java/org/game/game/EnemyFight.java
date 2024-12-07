@@ -23,22 +23,29 @@ public class EnemyFight {
     }
 
     public void startFight(Character character, Enemy enemy) {
+        System.out.println(character);
         character.generateSpells();
         enemy.generateSpells();
 
         while (!characterDead && !enemyDead) {
+            System.out.println("Your Health: " + character.getHealth()
+            + "   Your Mana: " + character.getMana()
+            + "   Your Damage: " + character.getDamage());
+            System.out.println("Enemy`s Health: " + enemy.getHealth()
+            + "   Enemy`s Mana: " + enemy.getMana()
+            + "   Enemy`s Damage: " + enemy.getDamage());
             if (turn == 1) {
                 attackPlayer(character, enemy);
             } else if (turn == 2) {
                 attackEnemy(character, enemy);
             }
-        }
 
-        if (character.getSpells().isEmpty()) {
-            character.generateSpells();
-        }
-        if (enemy.getSpells().isEmpty()) {
-            enemy.generateSpells();
+            if (character.getSpells().isEmpty()) {
+                character.generateSpells();
+            }
+            if (enemy.getSpells().isEmpty()) {
+                enemy.generateSpells();
+            }
         }
 
         // handle someone died
@@ -54,11 +61,11 @@ public class EnemyFight {
 
     public void attackEnemy(Character character, Enemy enemy) {
         System.out.println("No one died yet, prepare");
-        System.out.println("It`s your turn!");
+        System.out.println("It`s your turn!\n");
 
         if (notEnoughManaForAbilities(character)) {
             System.out.println("You don't have enough mana to use a spell");
-            System.out.println("You will use a normal attack this turn!");
+            System.out.println("You will use a normal attack this turn!\n");
             choice = 1;
         } else {
             System.out.println("Please choose what you want to do:");
@@ -112,16 +119,16 @@ public class EnemyFight {
         }
 
         turn = 2;
-        System.out.println("End of turn");
+        System.out.println("End of turn\n");
     }
 
     public void normalAttack(Character character, Enemy enemy) {
-        if (turn == 1) {
+        if (turn == 2) {
             enemy.setHealth(enemy.getHealth() - character.getDamage());
-            turn = 2;
+            turn = 1;
         } else {
             character.setHealth(character.getHealth() - enemy.getDamage());
-            turn = 1;
+            turn = 2;
         }
 
         if (character.getHealth() <= 0) {
@@ -154,7 +161,7 @@ public class EnemyFight {
         }
 
         Spell currSpell = character.getSpells().remove(choice);
-        System.out.println("Used Ability: " + currSpell.getClass() + " " + currSpell);
+        System.out.println("Used Ability: " + character.printClass(currSpell) + ", " + currSpell);
         character.setMana(character.getMana() - currSpell.getMana());
 
         if (currSpell.getClass() == Fire.class && enemy.isFireProof()) {
@@ -183,7 +190,7 @@ public class EnemyFight {
         }
 
         Spell currSpell = enemy.getSpells().remove(choice);
-        System.out.println("Used Ability: " + currSpell.getClass() + " " + currSpell);
+        System.out.println("Used Ability: " + enemy.printClass(currSpell) + " " + currSpell);
         enemy.setMana(enemy.getMana() - currSpell.getMana());
 
         if ((currSpell.getClass() == Fire.class && character.isFireProof())
@@ -211,15 +218,5 @@ public class EnemyFight {
             }
         }
         return min == character.getMana();
-    }
-
-    public String printClass(Spell spell) {
-        if (spell.getClass() == Fire.class) {
-            return "Fire";
-        } else if (spell.getClass() == Ice.class) {
-            return "Ice";
-        } else {
-            return "Earth";
-        }
     }
 }
