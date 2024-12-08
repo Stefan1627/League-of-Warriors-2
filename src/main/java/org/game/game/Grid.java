@@ -47,7 +47,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
 
         setCellType(this, CallEntityType.PORTAL, rand);
-        setCellType(this, CallEntityType.PLAYER, rand);
 
         return this;
     }
@@ -60,11 +59,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
             if (cell.isEmpty()) {
                 cell.setType(type);
-
-                if (type == CallEntityType.ENEMY) {
-                    cell.setEnemy();
-                }
-
                 break;
             }
         }
@@ -74,9 +68,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         Cell cell = grid.get(row).get(col);
         cell.setType(type);
 
-        if (type == CallEntityType.ENEMY) {
-            cell.setEnemy();
-        } else if (type == CallEntityType.PLAYER) {
+        if (type == CallEntityType.PLAYER) {
             cell.setVisited(true);
         }
     }
@@ -93,7 +85,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell.setRow(currentCell.getRow() - 1);
 
         putPlayerOnCell();
-        printMap();
     }
 
     public void goSouth() {
@@ -103,7 +94,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell.setRow(currentCell.getRow() + 1);
 
         putPlayerOnCell();
-        printMap();
     }
 
     public void goEast() {
@@ -113,7 +103,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell.setCol(currentCell.getCol() + 1);
 
         putPlayerOnCell();
-        printMap();
     }
 
     public void goWest() {
@@ -123,15 +112,15 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell.setCol(currentCell.getCol() - 1);
 
         putPlayerOnCell();
-        printMap();
     }
 
     public void printMap() {
+        System.out.println("------------------------------------------------");
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
-                /*if (!get(i).get(j).isVisited()) {
+                if (!get(i).get(j).isVisited()) {
                     System.out.print("N ");
-                } else */if (get(i).get(j).getType() == CallEntityType.PLAYER) {
+                } else if (get(i).get(j).getType() == CallEntityType.PLAYER) {
                         System.out.print("P ");
                 } else if (get(i).get(j).getType() == CallEntityType.ENEMY) {
                     System.out.print("E ");
@@ -145,5 +134,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             }
             System.out.println();
         }
+        System.out.println("------------------------------------------------");
     }
 }

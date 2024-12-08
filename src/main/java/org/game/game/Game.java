@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.game.account.Account;
 import org.game.entities.Character;
+import org.game.entities.Enemy;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,8 +14,6 @@ import java.util.Scanner;
 public class Game {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Random RANDOM = new Random();
-    private static final String filePath1 = "accounts.json";
-    private static final String filePath2 = "output.out";
     private ArrayList<Account> accounts;
     private Account currAccount;
     private Character currCharacter;
@@ -37,24 +36,22 @@ public class Game {
         length = 5;
         width = 5;
         generateMap();
-        map.printMap();
+        map.setCurrentCell(map.getFirst().getFirst());
 
-        int choice;
-        int limits;
+
+        String choice;
         while (true) {
-            limits = printAvailableOptions();
-            choice = SCANNER.nextInt();
-            if (choice == 5)
+            map.printMap();
+            printAvailableOptions();
+            choice = SCANNER.next();
+            if (choice.equals("q"))
                 break;
 
-            if (choice < 1 || choice > limits)
-                continue;
-
             switch (choice) {
-                case 1 -> map.goNorth();
-                case 2 -> map.goWest();
-                case 3 -> map.goEast();
-                case 4 -> map.goSouth();
+                case "w" -> map.goNorth();
+                case "a" -> map.goWest();
+                case "d" -> map.goEast();
+                case "s" -> map.goSouth();
             }
 
             handleCellEvent();
@@ -106,15 +103,15 @@ public class Game {
 
     private void handleEnemyMeeting() {
         EnemyFight enemyFight = new EnemyFight();
-        System.out.println(currCharacter);
-        gameOver = enemyFight.startFight(currCharacter, map.getCurrentCell().getEnemy());
+        Enemy enemy = new Enemy();
+        System.out.println(currCharacter.isEarthProof());
+        System.out.println(currCharacter.isFireProof());
+        System.out.println(currCharacter.isIceProof());
+        gameOver = enemyFight.startFight(currCharacter, enemy);
     }
 
     public void handleCellEvent() {
         switch (map.getOldType()) {
-            case CallEntityType.VOID -> {
-                // invalidDirection ia o valoare;
-            }
             case CallEntityType.PORTAL -> {
                 currCharacter.setCurrExp(currCharacter.getCurrExp() + currLvl * 5);
                 currLvl++;
@@ -137,10 +134,9 @@ public class Game {
         currCharacter.setCharisma(RANDOM.nextInt(1,11));
     }
 
-    public int printAvailableOptions() {
+    public void printAvailableOptions() {
         int currX = map.getCurrentCell().getRow();
         int currY = map.getCurrentCell().getCol();
-        int index = 1;
 
         System.out.println("Available options, choose one:");
         for (Directions direction : Directions.values()) {
@@ -150,29 +146,23 @@ public class Game {
             switch (direction) {
                 case North -> {
                     if (currX == 0) break;
-                    System.out.println(index + ". Go " + direction);
-                    index++;
+                    System.out.println("w. Go " + direction);
                 }
                 case West -> {
-                    if (currY == length - 1) break;
-                    System.out.println(index + ". Go " + direction);
-                    index++;
+                    if (currY == 0) break;
+                    System.out.println("a. Go " + direction);
                 }
                 case East -> {
                     if (currY == width - 1) break;
-                    System.out.println(index + ". Go " + direction);
-                    index++;
+                    System.out.println("d. Go " + direction);
                 }
                 case South -> {
                     if (currX == length - 1) break;
-                    System.out.println(index + ". Go " + direction);
-                    index++;
+                    System.out.println("s. Go " + direction);
                 }
             }
         }
 
-        System.out.println("Special options, please press '5' to exit.");
-        System.out.println("5. Exit");
-        return index;
+        System.out.println("Special options, please press 'q' to exit.");
     }
 }

@@ -13,7 +13,7 @@ public class Enemy extends Entity {
         setEarthProof(RANDOM.nextBoolean());
         setFireProof(RANDOM.nextBoolean());
         setIceProof(RANDOM.nextBoolean());
-        // de ales spellurile
+        System.out.println("s a executat");
     }
 
     @Override
@@ -27,9 +27,10 @@ public class Enemy extends Entity {
 
     @Override
     public int getDamage() {
+        int res = damage;
         if (RANDOM.nextBoolean()) {
-            damage *= 2;
+            res *= 2;
         }
-        return damage;
+        return res;
     }
 }

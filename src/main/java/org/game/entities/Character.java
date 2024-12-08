@@ -36,7 +36,6 @@ public abstract class Character extends Entity{
 
     @Override
     public int getDamage() {
-        System.out.println("E prost");
         return 0;
     }
 

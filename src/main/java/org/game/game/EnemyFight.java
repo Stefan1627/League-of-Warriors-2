@@ -1,8 +1,7 @@
 package org.game.game;
 
+import org.game.entities.*;
 import org.game.entities.Character;
-import org.game.entities.Enemy;
-import org.game.entities.Entity;
 import org.game.exceptions.InvalidSpellException;
 import org.game.exceptions.NotEnoughManaException;
 import org.game.spells.*;
@@ -195,9 +194,9 @@ public class EnemyFight {
         System.out.println("Used Ability: " + enemy.printClass(currSpell) + " " + currSpell);
         enemy.setMana(enemy.getMana() - currSpell.getMana());
 
-        if ((currSpell.getClass() == Fire.class && character.isFireProof())
-            || (currSpell.getClass() == Ice.class && character.isIceProof())
-            || (currSpell.getClass() == Earth.class && character.isEarthProof())) {
+        if ((currSpell.getClass() == Fire.class && character.getClass() == Warrior.class)
+            || (currSpell.getClass() == Ice.class && character.getClass() == Mage.class)
+            || (currSpell.getClass() == Earth.class && character.getClass() == Rogue.class)) {
             System.out.println("Oops... Your enemy got scammed");
             return;
         }

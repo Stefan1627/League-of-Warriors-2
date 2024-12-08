@@ -1,6 +1,7 @@
 package org.game.entities;
 
 public class Warrior extends Character{
+
     public void evolve() {
         super.setStrength(super.getStrength() + 5);
         super.setDexterity(super.getDexterity() + 1);
