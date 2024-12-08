@@ -33,6 +33,7 @@ public class EnemyFight {
             System.out.println("Enemy`s Health: " + enemy.getHealth()
             + "   Enemy`s Mana: " + enemy.getMana()
             + "   Enemy`s Damage: " + enemy.getDamage());
+
             if (turn == 1) {
                 attackPlayer(character, enemy);
             } else if (turn == 2) {
@@ -127,7 +128,7 @@ public class EnemyFight {
             enemy.setHealth(enemy.getHealth() - character.getDamage());
             turn = 1;
         } else {
-            character.setHealth(character.getHealth() - enemy.getDamage());
+            character.setHealth(character.getHealth() - enemy.dealDamage());
             turn = 2;
         }
 

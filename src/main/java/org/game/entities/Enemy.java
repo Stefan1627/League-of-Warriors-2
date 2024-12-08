@@ -27,6 +27,10 @@ public class Enemy extends Entity {
 
     @Override
     public int getDamage() {
+        return damage;
+    }
+
+    public int dealDamage() {
         int res = damage;
         if (RANDOM.nextBoolean()) {
             res *= 2;

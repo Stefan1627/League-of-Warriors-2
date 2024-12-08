@@ -75,8 +75,8 @@ public abstract class Entity implements Battle {
         boolean hasEarth = false;
 
         for (int i = 0; i < numOfSpells; i++) {
-            int damage = rand.nextInt(31) + 10; // Damage intre 10 si 40
-            int manaCost = rand.nextInt(21) + 5; // Mana cost intre 5 si 25
+            int damage = rand.nextInt(5,16);
+            int manaCost = rand.nextInt(2, 6);
 
             Spell spell;
             int type = rand.nextInt(3); // 0 = Ice, 1 = Fire, 2 = Earth

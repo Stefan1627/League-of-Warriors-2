@@ -2,6 +2,7 @@ package org.game.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.game.Test;
 import org.game.account.Account;
 import org.game.entities.Character;
 import org.game.entities.Enemy;
@@ -28,17 +29,21 @@ public class Game {
     public Game() {
     }
 
-    public void run(final ArrayList<Account> accounts) {
+    public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
         this.accounts = accounts;
         setAccountAndCharacter();
         setCharacterAttributes();
 
-        //generateLimits();
-        length = 5;
-        width = 5;
-        generateMap();
-        map.setCurrentCell(map.getFirst().getFirst());
-
+        if (!comingFromTest) {
+            generateLimits();
+            generateMap();
+            map.setCurrentCell(map.getFirst().getFirst());
+        } else {
+            length = 5;
+            width = 5;
+            generateMap();
+            Test.setDefaultMap(this);
+        }
 
         String choice;
         while (true) {
@@ -55,7 +60,7 @@ public class Game {
                 case "s" -> map.goSouth();
             }
 
-            handleCellEvent();
+            handleCellEvent(comingFromTest);
             if(gameOver)
                 break;
         }
@@ -95,7 +100,7 @@ public class Game {
         width = RANDOM.nextInt(3, 10);
     }
 
-    private void generateMap() {
+    public void generateMap() {
         map = Grid.createGrid(length, width);
         assert map != null;
         map = map.generateMap();
@@ -113,14 +118,25 @@ public class Game {
         }
     }
 
-    public void handleCellEvent() {
+    private void resetGame(boolean comingFromTest) {
+        Game newGame = new Game();
+
+        if (comingFromTest) {
+            System.exit(0);
+        }
+
+        newGame.run(accounts, false);
+    }
+
+    public void handleCellEvent(boolean comingFromTest) {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
+                System.out.println("Going through portal");
                 currCharacter.incrementExp(gameLvl * 5);
                 gameLvl++;
                 currAccount.setGamesPlayed(currAccount.getGamesPlayed() + 1);
                 currCharacter.evolve();
-                //resetGame();
+                resetGame(comingFromTest);
             }
             case CallEntityType.ENEMY -> handleEnemyMeeting();
             case CallEntityType.SANCTUARY -> {
