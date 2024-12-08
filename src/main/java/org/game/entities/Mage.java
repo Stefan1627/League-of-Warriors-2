@@ -2,16 +2,16 @@ package org.game.entities;
 
 public class Mage extends Character {
     public void evolve() {
-        super.setStrength(super.getStrength() + 1);
-        super.setDexterity(super.getDexterity() + 1);
-        super.setCharisma(super.getCharisma() + 5);
+        setStrength((getStrength() + 1) * getCurrLvl());
+        setDexterity((getDexterity() + 1)  * getCurrLvl());
+        setCharisma((getCharisma() + 5) * getCurrLvl());
     }
 
     public void receiveDamage(int damage) {
-        super.receiveDamage(damage - super.getDexterity() / 2 - super.getStrength() / 5);
+        super.receiveDamage(damage - getDexterity() / 2 - getStrength() / 5);
     }
 
     public int getDamage() {
-        return super.getStrength() + super.getDexterity() / 2 + 2 * super.getCharisma();
+        return getStrength() + getDexterity() / 2 + 2 * getCharisma();
     }
 }

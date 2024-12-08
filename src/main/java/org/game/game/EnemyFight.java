@@ -54,7 +54,6 @@ public class EnemyFight {
 
         if (enemyDead) {
             System.out.println("Congrats! You won the fight");
-            character.wonFight();
         }
 
         return characterDead;

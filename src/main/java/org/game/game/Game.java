@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.game.account.Account;
 import org.game.entities.Character;
 import org.game.entities.Enemy;
+import org.game.entities.Entity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,7 +19,7 @@ public class Game {
     private Account currAccount;
     private Character currCharacter;
     private Grid map;
-    private int currLvl;
+    private int gameLvl = 1;
     private Directions invalidDirection;
     private int length;
     private int width;
@@ -104,34 +105,35 @@ public class Game {
     private void handleEnemyMeeting() {
         EnemyFight enemyFight = new EnemyFight();
         Enemy enemy = new Enemy();
-        System.out.println(currCharacter.isEarthProof());
-        System.out.println(currCharacter.isFireProof());
-        System.out.println(currCharacter.isIceProof());
+
         gameOver = enemyFight.startFight(currCharacter, enemy);
+
+        if (!gameOver) {
+            currCharacter.wonFight(RANDOM.nextInt(5,21));
+        }
     }
 
     public void handleCellEvent() {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
-                currCharacter.setCurrExp(currCharacter.getCurrExp() + currLvl * 5);
-                currLvl++;
+                currCharacter.incrementExp(gameLvl * 5);
+                gameLvl++;
                 currAccount.setGamesPlayed(currAccount.getGamesPlayed() + 1);
-                currCharacter.setCurrLvl(currCharacter.getCurrLvl() + 1);
                 currCharacter.evolve();
                 //resetGame();
             }
             case CallEntityType.ENEMY -> handleEnemyMeeting();
             case CallEntityType.SANCTUARY -> {
                 currCharacter.regenerateMana();
-                currCharacter.setHealth(100);
+                currCharacter.setHealth(Entity.MAX_HEALTH);
             }
         }
     }
 
     public void setCharacterAttributes() {
-        currCharacter.setStrength(RANDOM.nextInt(1,11));
-        currCharacter.setDexterity(RANDOM.nextInt(1,11));
-        currCharacter.setCharisma(RANDOM.nextInt(1,11));
+        currCharacter.setStrength(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
+        currCharacter.setDexterity(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
+        currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
     }
 
     public void printAvailableOptions() {

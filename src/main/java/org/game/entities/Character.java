@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Random;
-
 @Getter @Setter
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -39,15 +37,22 @@ public abstract class Character extends Entity{
         return 0;
     }
 
-    public void wonFight() {
-        Random rand = new Random();
+    public void wonFight(int exp) {
         regenerateHealth(getHealth() * 2);
         regenerateMana();
-        setCurrExp(getCurrExp() + rand.nextInt(21));
+        incrementExp(exp);
     }
 
     public void evolve() {
         System.out.println("Evolving " + getName());
+    }
+
+    public void incrementExp(int exp) {
+        currExp += exp;
+        if (currExp >= 100) {
+            currExp -= 100;
+            currLvl++;
+        }
     }
 
     @Override

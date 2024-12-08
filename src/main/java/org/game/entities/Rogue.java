@@ -2,16 +2,16 @@ package org.game.entities;
 
 public class Rogue extends Character {
     public void evolve() {
-        super.setStrength(super.getStrength() + 1);
-        super.setDexterity(super.getDexterity() + 5);
-        super.setCharisma(super.getCharisma() + 1);
+        setStrength((getStrength() + 1) * getCurrLvl());
+        setDexterity((getDexterity() + 5) * getCurrLvl());
+        setCharisma((getCharisma() + 1) * getCurrLvl());
     }
 
     public void receiveDamage(int damage) {
-        super.receiveDamage(damage - super.getCharisma() / 2 - super.getStrength() / 5);
+        super.receiveDamage(damage - getCharisma() / 2 - getStrength() / 5);
     }
 
     public int getDamage() {
-        return super.getStrength() / 2 + super.getDexterity() * 2 + super.getCharisma();
+        return getStrength() / 2 + getDexterity() * 2 + getCharisma();
     }
 }
