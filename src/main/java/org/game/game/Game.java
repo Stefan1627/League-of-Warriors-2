@@ -31,7 +31,7 @@ public class Game {
 
     public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
         this.accounts = accounts;
-        setAccountAndCharacter();
+        chooseLoginType();
         setCharacterAttributes();
 
         if (!comingFromTest) {
@@ -66,7 +66,20 @@ public class Game {
         }
     }
 
-    private void setAccountAndCharacter() {
+    public void chooseLoginType() {
+        System.out.println("Please select the login type.");
+        System.out.println("1. Enter Credentials(email + password) manually;");
+        System.out.println("2. Choose from a list of accounts");
+        System.out.println("3. Exit");
+        int choice = SCANNER.nextInt();
+        switch (choice) {
+            case 1 -> handleLoginInput();
+            case 2 -> handleChoosingAccount();
+            case 3 -> System.exit(0);
+        }
+    }
+
+    private void handleChoosingAccount() {
         int i = 1;
         System.out.println("Please choose an account by entering the index of the account.");
         for (Account account : accounts) {
@@ -75,13 +88,40 @@ public class Game {
         }
         i = SCANNER.nextInt();
         currAccount = chooseAccount(i - 1);
+        setCharacter();
+    }
+
+    private void handleLoginInput() {
+        while (true) {
+            System.out.println("Please enter your email.");
+            String email = SCANNER.next();
+            System.out.println("Please enter your password.");
+            String password = SCANNER.next();
+
+            for (Account account : accounts) {
+                if(account.accountExists(email, password)) {
+                    currAccount = account;
+                }
+            }
+
+            if (currAccount == null) {
+                System.out.println("Invalid email or password.");
+            } else {
+                break;
+            }
+        }
+        setCharacter();
+    }
+
+    private void setCharacter() {
+        int i = 1;
 
         System.out.println("Please choose a character to play with");
-        i = 1;
         for (Character character : currAccount.getCharacters()) {
             System.out.println(i + ". " + character);
             i++;
         }
+
         i = SCANNER.nextInt();
         currCharacter = chooseCharacter(i - 1);
         currCharacter.setMaxMana(currCharacter.getMana());

@@ -50,8 +50,7 @@ public class Test {
         Input inputData = objectMapper.readValue(new File(filePath1), Input.class);
 
         Game game = new Game();
-        // 1.
-        game.run(inputData.getAccounts(), true);
 
+        game.run(inputData.getAccounts(), true);
     }
 }

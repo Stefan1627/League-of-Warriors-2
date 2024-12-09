@@ -37,6 +37,14 @@ public class Account {
         return res;
     }
 
+    public boolean accountExists(String email, String password) {
+        if (info.credentials.getEmail().equals(email)
+            && info.credentials.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
+
     @Getter @Setter
     public static class Information {
         private Credentials credentials;
@@ -60,6 +68,5 @@ public class Account {
             this.favoriteGames = new ArrayList<>(favoriteGames);
             Collections.sort(this.favoriteGames);
         }
-
     }
 }
