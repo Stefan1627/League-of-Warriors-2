@@ -1,4 +1,4 @@
-de facut exceptii la input
+de verificat wonFight()
 
 de adaugat punerea random a jucatorului pe harta
 

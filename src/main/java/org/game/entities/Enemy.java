@@ -7,7 +7,7 @@ public class Enemy extends Entity {
     private int damage;
 
     public Enemy() {
-        damage = RANDOM.nextInt(5) + 1;
+        damage = RANDOM.nextInt(5, 20);
         setHealth(RANDOM.nextInt(60, 100));
         setMana(RANDOM.nextInt(5, 10));
         setEarthProof(RANDOM.nextBoolean());

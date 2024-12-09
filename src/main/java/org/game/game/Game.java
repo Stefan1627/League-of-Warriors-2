@@ -26,13 +26,19 @@ public class Game {
     private int length;
     private int width;
     private boolean gameOver;
+    private boolean resetGame;
 
     public Game() {
+        resetGame = false;
     }
 
     public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
-        this.accounts = accounts;
-        chooseLoginType();
+        if (!resetGame) {
+            this.accounts = accounts;
+            chooseLoginType();
+        }
+
+        setCharacter();
         setCharacterAttributes();
 
         if (!comingFromTest) {
@@ -59,13 +65,17 @@ public class Game {
                     throw new InvalidMoveException("Invalid move, please choose from what is printed on screen");
                 }
                 if (choice.equals("q"))
-                    break;
+                    System.exit(0);
 
                 switch (choice) {
                     case "w" -> map.goNorth();
                     case "a" -> map.goWest();
                     case "d" -> map.goEast();
                     case "s" -> map.goSouth();
+                    case "r" -> {
+                        resetGame = true;
+                        run(accounts, comingFromTest);
+                    }
                 }
 
                 handleCellEvent(comingFromTest);
@@ -75,6 +85,9 @@ public class Game {
                 System.out.println(e.getMessage());
             }
         }
+
+        resetGame = true;
+        run(accounts, comingFromTest);
     }
 
     public void chooseLoginType() {
@@ -103,7 +116,7 @@ public class Game {
                         System.exit(0);
                     }
                 }
-            } catch (Exception e) {
+            } catch (InvalidChooseOption e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -126,7 +139,6 @@ public class Game {
                     throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
                 }
                 currAccount = chooseAccount(choiceInt - 1);
-                setCharacter();
                 break;
             } catch (InvalidChooseOption e) {
                 System.out.println(e.getMessage());
@@ -147,7 +159,6 @@ public class Game {
             for (Account account : accounts) {
                 if(account.accountExists(email, password)) {
                     currAccount = account;
-                    setCharacter();
                 }
             }
 
@@ -225,14 +236,14 @@ public class Game {
     }
 
     private void resetGame(boolean comingFromTest) {
-        Game newGame = new Game();
+        resetGame = true;
 
         if (comingFromTest) {
             System.out.println("Exiting...");
             System.exit(0);
         }
 
-        newGame.run(accounts, false);
+        run(accounts, false);
     }
 
     public void handleCellEvent(boolean comingFromTest) {
@@ -293,7 +304,10 @@ public class Game {
             }
         }
 
-        System.out.println("Special options, please press 'q' to exit.");
+        System.out.println("Special options:");
+        System.out.println("press 'q' to exit.");
+        System.out.println("press 'r' to choose another character");
+        res.add("r");
         res.add("q");
         return res;
     }

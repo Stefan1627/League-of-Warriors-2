@@ -118,9 +118,9 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         System.out.println("------------------------------------------------");
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
-                if (!get(i).get(j).isVisited()) {
+                /*if (!get(i).get(j).isVisited()) {
                     System.out.print("N ");
-                } else if (get(i).get(j).getType() == CallEntityType.PLAYER) {
+                } else */if (get(i).get(j).getType() == CallEntityType.PLAYER) {
                         System.out.print("P ");
                 } else if (get(i).get(j).getType() == CallEntityType.ENEMY) {
                     System.out.print("E ");
