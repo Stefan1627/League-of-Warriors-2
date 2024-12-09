@@ -44,7 +44,7 @@ public class Game {
         if (!comingFromTest) {
             generateLimits();
             generateMap();
-            map.setCurrentCell(map.getFirst().getFirst());
+            map.selectStartingCell();
         } else {
             length = 5;
             width = 5;
@@ -56,10 +56,10 @@ public class Game {
         while (true) {
             map.printMap();
             ArrayList<String> availableMoves = printAvailableOptions();
-            System.out.println(availableMoves);
+
             choice = SCANNER.next();
             choice = choice.toLowerCase();
-            System.out.println(choice);
+
             try {
                 if (!availableMoves.contains(choice)) {
                     throw new InvalidMoveException("Invalid move, please choose from what is printed on screen");

@@ -73,6 +73,20 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
+    public void selectStartingCell() {
+        Random rand = new Random();
+
+        while (true) {
+            int row = rand.nextInt(gridLength);
+            int col = rand.nextInt(gridWidth);
+            if (this.get(row).get(col).getType() == CallEntityType.VOID) {
+                currentCell = this.get(row).get(col);
+                currentCell.setType(CallEntityType.PLAYER);
+                break;
+            }
+        }
+    }
+
     public void putPlayerOnCell() {
         oldType = get(currentCell.getRow()).get(currentCell.getCol()).getType();
         setCellType(this, CallEntityType.PLAYER, currentCell.getRow(), currentCell.getCol());
