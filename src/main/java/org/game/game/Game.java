@@ -49,21 +49,31 @@ public class Game {
         String choice;
         while (true) {
             map.printMap();
-            printAvailableOptions();
+            ArrayList<String> availableMoves = printAvailableOptions();
+            System.out.println(availableMoves);
             choice = SCANNER.next();
-            if (choice.equals("q"))
-                break;
+            choice = choice.toLowerCase();
+            System.out.println(choice);
+            try {
+                if (!availableMoves.contains(choice)) {
+                    throw new InvalidMoveException("Invalid move, please choose from what is printed on screen");
+                }
+                if (choice.equals("q"))
+                    break;
 
-            switch (choice) {
-                case "w" -> map.goNorth();
-                case "a" -> map.goWest();
-                case "d" -> map.goEast();
-                case "s" -> map.goSouth();
+                switch (choice) {
+                    case "w" -> map.goNorth();
+                    case "a" -> map.goWest();
+                    case "d" -> map.goEast();
+                    case "s" -> map.goSouth();
+                }
+
+                handleCellEvent(comingFromTest);
+                if(gameOver)
+                    break;
+            } catch (InvalidMoveException e) {
+                System.out.println(e.getMessage());
             }
-
-            handleCellEvent(comingFromTest);
-            if(gameOver)
-                break;
         }
     }
 
@@ -88,7 +98,10 @@ public class Game {
                         handleChoosingAccount();
                         return;
                     }
-                    case "3" -> System.exit(0);
+                    case "3" -> {
+                        System.out.println("Exiting...");
+                        System.exit(0);
+                    }
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -215,6 +228,7 @@ public class Game {
         Game newGame = new Game();
 
         if (comingFromTest) {
+            System.out.println("Exiting...");
             System.exit(0);
         }
 
@@ -245,7 +259,8 @@ public class Game {
         currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
     }
 
-    public void printAvailableOptions() {
+    public ArrayList<String> printAvailableOptions() {
+        ArrayList<String> res = new ArrayList<>();
         int currX = map.getCurrentCell().getRow();
         int currY = map.getCurrentCell().getCol();
 
@@ -258,22 +273,28 @@ public class Game {
                 case North -> {
                     if (currX == 0) break;
                     System.out.println("w. Go " + direction);
+                    res.add("w");
                 }
                 case West -> {
                     if (currY == 0) break;
                     System.out.println("a. Go " + direction);
+                    res.add("a");
                 }
                 case East -> {
                     if (currY == width - 1) break;
                     System.out.println("d. Go " + direction);
+                    res.add("d");
                 }
                 case South -> {
                     if (currX == length - 1) break;
                     System.out.println("s. Go " + direction);
+                    res.add("s");
                 }
             }
         }
 
         System.out.println("Special options, please press 'q' to exit.");
+        res.add("q");
+        return res;
     }
 }
