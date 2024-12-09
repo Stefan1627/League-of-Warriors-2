@@ -132,7 +132,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                     System.out.print("V ");
                 }
             }
-            System.out.println();
         }
         System.out.println("------------------------------------------------");
     }

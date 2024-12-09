@@ -7,6 +7,7 @@ import org.game.account.Account;
 import org.game.entities.Character;
 import org.game.entities.Enemy;
 import org.game.entities.Entity;
+import org.game.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -71,11 +72,27 @@ public class Game {
         System.out.println("1. Enter Credentials(email + password) manually;");
         System.out.println("2. Choose from a list of accounts");
         System.out.println("3. Exit");
-        int choice = SCANNER.nextInt();
-        switch (choice) {
-            case 1 -> handleLoginInput();
-            case 2 -> handleChoosingAccount();
-            case 3 -> System.exit(0);
+        while (true) {
+            String choice = SCANNER.next();
+            try {
+                if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
+                    throw new InvalidChooseOption("Invalid input. Please enter 1, 2, or 3.");
+                }
+
+                switch (choice) {
+                    case "1" -> {
+                        handleLoginInput();
+                        return;
+                    }
+                    case "2" -> {
+                        handleChoosingAccount();
+                        return;
+                    }
+                    case "3" -> System.exit(0);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -86,13 +103,29 @@ public class Game {
             System.out.println(i + ". " + account.getInfo());
             i++;
         }
-        i = SCANNER.nextInt();
-        currAccount = chooseAccount(i - 1);
-        setCharacter();
+        i--;
+
+        while (true) {
+            String choice = SCANNER.next();
+            try {
+                int choiceInt = Integer.parseInt(choice);
+                if (choiceInt > i || choiceInt < 0) {
+                    throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
+                }
+                currAccount = chooseAccount(choiceInt - 1);
+                setCharacter();
+                break;
+            } catch (InvalidChooseOption e) {
+                System.out.println(e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a numeric value.");
+            }
+        }
     }
 
     private void handleLoginInput() {
-        while (true) {
+        int numOfTries = 3;
+        while (numOfTries > 0) {
             System.out.println("Please enter your email.");
             String email = SCANNER.next();
             System.out.println("Please enter your password.");
@@ -101,16 +134,22 @@ public class Game {
             for (Account account : accounts) {
                 if(account.accountExists(email, password)) {
                     currAccount = account;
+                    setCharacter();
                 }
             }
 
             if (currAccount == null) {
-                System.out.println("Invalid email or password.");
+                System.out.print("Invalid email or password. ");
             } else {
                 break;
             }
+            numOfTries--;
+            System.out.println("You have " + numOfTries + " more tries.");
         }
-        setCharacter();
+        if (numOfTries == 0) {
+            System.out.println("No more tries available, returning to choosing login type.");
+            chooseLoginType();
+        }
     }
 
     private void setCharacter() {
@@ -121,10 +160,24 @@ public class Game {
             System.out.println(i + ". " + character);
             i++;
         }
+        i--;
 
-        i = SCANNER.nextInt();
-        currCharacter = chooseCharacter(i - 1);
-        currCharacter.setMaxMana(currCharacter.getMana());
+        while (true) {
+            String choice = SCANNER.next();
+            try {
+                int choiceInt = Integer.parseInt(choice);
+                if (choiceInt > i || choiceInt < 0) {
+                    throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
+                }
+                currCharacter = chooseCharacter(choiceInt - 1);
+                currCharacter.setMaxMana(currCharacter.getMana());
+                break;
+            } catch (InvalidChooseOption e) {
+                System.out.println(e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a numeric value.");
+            }
+        }
     }
 
     private Account chooseAccount(int index) {
