@@ -231,7 +231,7 @@ public class Game {
         gameOver = enemyFight.startFight(currCharacter, enemy);
 
         if (!gameOver) {
-            currCharacter.wonFight(RANDOM.nextInt(5,21));
+            currCharacter.wonFight(RANDOM.nextInt(100,101));
         }
     }
 

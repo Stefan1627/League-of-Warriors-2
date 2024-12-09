@@ -41,6 +41,7 @@ public abstract class Character extends Entity{
         regenerateHealth(getHealth() * 2);
         regenerateMana();
         incrementExp(exp);
+        evolve();
     }
 
     public void evolve() {
@@ -49,8 +50,8 @@ public abstract class Character extends Entity{
 
     public void incrementExp(int exp) {
         currExp += exp;
-        if (currExp >= 100) {
-            currExp -= 100;
+        if (currExp >= 200) {
+            currExp -= 200;
             currLvl++;
         }
     }

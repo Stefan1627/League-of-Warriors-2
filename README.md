@@ -1,5 +1,3 @@
-de verificat wonFight()
-
 de adaugat punerea random a jucatorului pe harta
 
 de intrebat la lab despre super in warrior etc
