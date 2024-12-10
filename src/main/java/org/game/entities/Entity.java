@@ -25,7 +25,7 @@ public abstract class Entity implements Battle {
     public Entity() {
         spells = new ArrayList<>();
         health = 100;
-        mana = 300;
+        mana = 100;
         fireProof = false;
         iceProof = false;
         earthProof = false;

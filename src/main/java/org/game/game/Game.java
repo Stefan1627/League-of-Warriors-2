@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 @Getter @Setter
 public class Game {
+    private static final int MIN_NUM_OF_CELLS = 8;
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Random RANDOM = new Random();
     private ArrayList<Account> accounts;
@@ -43,12 +44,14 @@ public class Game {
 
         if (!comingFromTest) {
             generateLimits();
-            generateMap();
+            map = Grid.generateMap(length, width);
+            map.setCurrentCharacter(currCharacter);
             map.selectStartingCell();
         } else {
             length = 5;
             width = 5;
-            generateMap();
+            map = Grid.generateMap(length, width);
+            map.setCurrentCharacter(currCharacter);
             Test.setDefaultMap(this);
         }
 
@@ -213,13 +216,14 @@ public class Game {
     }
 
     private void generateLimits() {
-        length = RANDOM.nextInt(3, 10);
-        width = RANDOM.nextInt(3, 10);
-    }
+        while (true) {
+            length = RANDOM.nextInt( 11);
+            width = RANDOM.nextInt(11);
 
-    public void generateMap() {
-        map = Grid.generateMap(length, width);
-        map.setCurrentCharacter(currCharacter);
+            if (length * width >= MIN_NUM_OF_CELLS) {
+                break;
+            }
+        }
     }
 
     private void handleEnemyMeeting() {
@@ -229,7 +233,7 @@ public class Game {
         gameOver = enemyFight.fight(currCharacter, enemy);
 
         if (!gameOver) {
-            currCharacter.wonFight(RANDOM.nextInt(100,101));
+            currCharacter.wonFight(RANDOM.nextInt(40,101));
         }
     }
 

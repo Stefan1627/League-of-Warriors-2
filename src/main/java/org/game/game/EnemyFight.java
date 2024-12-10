@@ -22,7 +22,6 @@ public class EnemyFight {
     }
 
     public boolean fight(Character character, Enemy enemy) {
-        System.out.println(character);
         character.generateSpells();
         enemy.generateSpells();
 

@@ -11,7 +11,6 @@ import java.util.Random;
 
 @Getter @Setter
 public class Grid extends ArrayList<ArrayList<Cell>> {
-    private static final int MAX_GRID_SIZE = 10;
     private Character currentCharacter;
     private static int gridLength;
     private static int gridWidth;
