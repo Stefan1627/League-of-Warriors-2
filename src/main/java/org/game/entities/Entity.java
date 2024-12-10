@@ -50,19 +50,8 @@ public abstract class Entity implements Battle {
                 continue;
             }
             System.out.print(i + ". ");
-            System.out.print(printClass(spell) + " ");
             System.out.println(spell);
             i++;
-        }
-    }
-
-    public String printClass(Spell spell) {
-        if (spell.getClass() == Fire.class) {
-            return "Fire";
-        } else if (spell.getClass() == Ice.class) {
-            return "Ice";
-        } else {
-            return "Earth";
         }
     }
 
@@ -106,6 +95,30 @@ public abstract class Entity implements Battle {
             if (!hasFire) spells.add(new Fire(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
             if (!hasEarth) spells.add(new Earth(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
         }
+    }
 
+    public boolean useAbility(Spell spell, Entity enemy) {
+        System.out.println("Used Ability: " + spell);
+
+        if ((spell.getClass() == Fire.class &&
+            (enemy.isFireProof() || enemy.getClass() == Warrior.class))
+            || (spell.getClass() == Ice.class &&
+            (enemy.isIceProof() || enemy.getClass() == Mage.class))
+            || (spell.getClass() == Earth.class &&
+            (enemy.isEarthProof() || enemy.getClass() == Rogue.class))) {
+
+            if (enemy.isFireProof() || enemy.isIceProof() || enemy.isEarthProof()) {
+                System.out.println("Oops... Your enemy is " +
+                        (spell.getClass() == Fire.class ? "fireproof" :
+                                spell.getClass() == Ice.class ? "iceproof" : "earthproof"));
+            } else {
+                System.out.println("Oops... Your enemy got scammed");
+            }
+            return false;
+        }
+
+        enemy.receiveDamage(spell.getDamage());
+
+        return true;
     }
 }

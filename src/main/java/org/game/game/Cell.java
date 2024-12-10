@@ -22,8 +22,4 @@ public class Cell {
     public boolean isEmpty() {
         return type == CallEntityType.VOID;
     }
-
-    public void setEnemy() {
-        enemy = new Enemy();
-    }
 }

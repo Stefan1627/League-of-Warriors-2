@@ -21,7 +21,7 @@ public class EnemyFight {
         turn = 1;
     }
 
-    public boolean startFight(Character character, Enemy enemy) {
+    public boolean fight(Character character, Enemy enemy) {
         System.out.println(character);
         character.generateSpells();
         enemy.generateSpells();
@@ -60,7 +60,7 @@ public class EnemyFight {
         return characterDead;
     }
 
-    public void attackEnemy(Character character, Enemy enemy) {
+    private void attackEnemy(Character character, Enemy enemy) {
         System.out.println("No one died yet, prepare");
         System.out.println("It`s your turn!\n");
 
@@ -73,11 +73,13 @@ public class EnemyFight {
             System.out.println("1. Normal Attack    2. Use Ability");
             System.out.println("Press 1 or 2 in function of what you want to do:");
             while (true) {
-                choice = scanner.nextInt();
-                if (choice == 1 || choice == 2) {
-                    break;
-                } else {
-                    System.out.println("Error! Please select one option from above");
+                try {
+                    choice = Integer.parseInt(scanner.next());
+                    if (choice == 1 || choice == 2) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid number");
                 }
             }
         }
@@ -98,7 +100,7 @@ public class EnemyFight {
         System.out.println("End of turn");
     }
 
-    public void attackPlayer(Character character, Enemy enemy) {
+    private void attackPlayer(Character character, Enemy enemy) {
         System.out.println("Enemy`s turn!");
         System.out.println("Please wait for the enemy to choose what he want to do");
         if (notEnoughManaForAbilities(enemy)) {
@@ -123,7 +125,7 @@ public class EnemyFight {
         System.out.println("End of turn\n");
     }
 
-    public void normalAttack(Character character, Enemy enemy) {
+    private void normalAttack(Character character, Enemy enemy) {
         if (turn == 2) {
             enemy.setHealth(enemy.getHealth() - character.getDamage());
             turn = 1;
@@ -141,16 +143,16 @@ public class EnemyFight {
         }
     }
 
-    public void useAbilityPlayer2_0(Character character, Enemy enemy) {
+    private void useAbilityPlayer2_0(Character character, Enemy enemy) {
         System.out.println("Please choose what ability you want to use:");
         System.out.println("These are the spells you have mana for");
         character.printSpells();
         System.out.println("Write the number in front of the ability you want to use");
 
-        choice = scanner.nextInt();
-        choice--;
         try {
-            if (!hasEnoughMana(character)) {
+            choice = Integer.parseInt(scanner.next());
+            choice--;
+            if (hasEnoughMana(character)) {
                 throw new NotEnoughManaException();
             }
             if (choice < 0 || choice > character.getSpells().size()) {
@@ -159,59 +161,41 @@ public class EnemyFight {
         } catch (NotEnoughManaException | InvalidSpellException e) {
             System.out.println(e.getMessage());
             useAbilityPlayer2_0(character, enemy);
+        } catch (Exception e) {
+            System.out.println("Please enter a valid number.");
+            useAbilityPlayer2_0(character, enemy);
         }
 
         Spell currSpell = character.getSpells().remove(choice);
-        System.out.println("Used Ability: " + character.printClass(currSpell) + ", " + currSpell);
         character.setMana(character.getMana() - currSpell.getMana());
 
-        if (currSpell.getClass() == Fire.class && enemy.isFireProof()) {
-            System.out.println("Oops... Your enemy is fireproof");
-            return;
-        } else if (currSpell.getClass() == Ice.class && enemy.isIceProof()) {
-            System.out.println("Oops... Your enemy is iceproof");
-            return;
-        } else if (currSpell.getClass() == Earth.class && enemy.isEarthProof()) {
-            System.out.println("Oops... Your enemy is earthproof");
-            return;
-        }
+        character.useAbility(currSpell, enemy);
 
-        enemy.recieveDamage(currSpell.getDamage());
         if (enemy.getHealth() <= 0) {
             enemyDead = true;
         }
     }
 
-    public void useAbilityEnemy(Character character, Enemy enemy) {
-        while (true) {
+    private void useAbilityEnemy(Character character, Enemy enemy) {
+        do {
             choice = rand.nextInt(enemy.getSpells().size());
-            if (hasEnoughMana(enemy)) {
-                break;
-            }
-        }
+        } while (hasEnoughMana(enemy));
 
         Spell currSpell = enemy.getSpells().remove(choice);
-        System.out.println("Used Ability: " + enemy.printClass(currSpell) + " " + currSpell);
         enemy.setMana(enemy.getMana() - currSpell.getMana());
 
-        if ((currSpell.getClass() == Fire.class && character.getClass() == Warrior.class)
-            || (currSpell.getClass() == Ice.class && character.getClass() == Mage.class)
-            || (currSpell.getClass() == Earth.class && character.getClass() == Rogue.class)) {
-            System.out.println("Oops... Your enemy got scammed");
-            return;
-        }
+        enemy.useAbility(currSpell, character);
 
-        character.recieveDamage(currSpell.getDamage());
         if (character.getHealth() <= 0) {
             characterDead = true;
         }
     }
 
-    public boolean hasEnoughMana(Entity character) {
-        return character.getMana() > character.getSpells().get(choice).getMana();
+    private boolean hasEnoughMana(Entity character) {
+        return character.getMana() < character.getSpells().get(choice).getMana();
     }
 
-    public boolean notEnoughManaForAbilities(Entity character) {
+    private boolean notEnoughManaForAbilities(Entity character) {
         int min = character.getMana();
         for (Spell spell : character.getSpells()) {
             if (spell.getMana() < min) {

@@ -5,14 +5,16 @@ import lombok.Setter;
 import org.game.entities.Character;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 @Getter @Setter
 public class Grid extends ArrayList<ArrayList<Cell>> {
     private static final int MAX_GRID_SIZE = 10;
     private Character currentCharacter;
-    private int gridLength;
-    private int gridWidth;
+    private static int gridLength;
+    private static int gridWidth;
     private Cell currentCell;
     private CallEntityType oldType = CallEntityType.VOID;
 
@@ -27,31 +29,41 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
-    public static Grid createGrid(int length, int width) {
-        if (length > MAX_GRID_SIZE || width > MAX_GRID_SIZE) {
-            System.out.println("Limit is too large.");
-            return null;
-        }
-        return new Grid(length, width);
-    }
-
-    public Grid generateMap() {
+    public static Grid generateMap(int length, int width) {
         Random rand = new Random();
 
+        Grid grid = new Grid(length, width);
+
         for (int i = 0; i < 2; i++) {
-            setCellType(this, CallEntityType.SANCTUARY, rand);
+            setCellType(grid, CallEntityType.SANCTUARY, rand);
         }
 
         for (int i = 0; i < 4; i++) {
-            setCellType(this, CallEntityType.ENEMY, rand);
+            setCellType(grid, CallEntityType.ENEMY, rand);
         }
 
-        setCellType(this, CallEntityType.PORTAL, rand);
+        setCellType(grid, CallEntityType.PORTAL, rand);
 
-        return this;
+        int remainingCells = gridLength * gridWidth - 7;
+        int randomCell = rand.nextInt(remainingCells);
+        for (int i = 0; i < randomCell; i++) {
+            setCellType(grid, getRandomCallEntityType(), rand);
+        }
+
+        return grid;
     }
 
-    public void setCellType(Grid grid, CallEntityType type, Random rand) {
+    public static CallEntityType getRandomCallEntityType() {
+        Random random = new Random();
+
+        List<CallEntityType> filteredTypes = Arrays.stream(CallEntityType.values())
+                .filter(type -> type != CallEntityType.PLAYER)
+                .toList();
+
+        return filteredTypes.get(random.nextInt(filteredTypes.size()));
+    }
+
+    public static void setCellType(Grid grid, CallEntityType type, Random rand) {
         while(true) {
             int row = rand.nextInt(gridLength);
             int col = rand.nextInt(gridWidth);
@@ -87,7 +99,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
-    public void putPlayerOnCell() {
+    private void putPlayerOnCell() {
         oldType = get(currentCell.getRow()).get(currentCell.getCol()).getType();
         setCellType(this, CallEntityType.PLAYER, currentCell.getRow(), currentCell.getCol());
     }

@@ -90,7 +90,7 @@ public class Game {
         run(accounts, comingFromTest);
     }
 
-    public void chooseLoginType() {
+    private void chooseLoginType() {
         System.out.println("Please select the login type.");
         System.out.println("1. Enter Credentials(email + password) manually;");
         System.out.println("2. Choose from a list of accounts");
@@ -135,7 +135,7 @@ public class Game {
             String choice = SCANNER.next();
             try {
                 int choiceInt = Integer.parseInt(choice);
-                if (choiceInt > i || choiceInt < 0) {
+                if (choiceInt > i || choiceInt < 1) {
                     throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
                 }
                 currAccount = chooseAccount(choiceInt - 1);
@@ -190,7 +190,7 @@ public class Game {
             String choice = SCANNER.next();
             try {
                 int choiceInt = Integer.parseInt(choice);
-                if (choiceInt > i || choiceInt < 0) {
+                if (choiceInt > i || choiceInt < 1) {
                     throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
                 }
                 currCharacter = chooseCharacter(choiceInt - 1);
@@ -218,9 +218,7 @@ public class Game {
     }
 
     public void generateMap() {
-        map = Grid.createGrid(length, width);
-        assert map != null;
-        map = map.generateMap();
+        map = Grid.generateMap(length, width);
         map.setCurrentCharacter(currCharacter);
     }
 
@@ -228,7 +226,7 @@ public class Game {
         EnemyFight enemyFight = new EnemyFight();
         Enemy enemy = new Enemy();
 
-        gameOver = enemyFight.startFight(currCharacter, enemy);
+        gameOver = enemyFight.fight(currCharacter, enemy);
 
         if (!gameOver) {
             currCharacter.wonFight(RANDOM.nextInt(100,101));
@@ -246,7 +244,7 @@ public class Game {
         run(accounts, false);
     }
 
-    public void handleCellEvent(boolean comingFromTest) {
+    private void handleCellEvent(boolean comingFromTest) {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
                 System.out.println("Going through portal");
@@ -264,13 +262,13 @@ public class Game {
         }
     }
 
-    public void setCharacterAttributes() {
+    private void setCharacterAttributes() {
         currCharacter.setStrength(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
         currCharacter.setDexterity(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
         currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
     }
 
-    public ArrayList<String> printAvailableOptions() {
+    private ArrayList<String> printAvailableOptions() {
         ArrayList<String> res = new ArrayList<>();
         int currX = map.getCurrentCell().getRow();
         int currY = map.getCurrentCell().getCol();

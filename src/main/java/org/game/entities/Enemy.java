@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Enemy extends Entity {
     private static final Random RANDOM = new Random();
-    private int damage;
+    private final int damage;
 
     public Enemy() {
         damage = RANDOM.nextInt(15, 25);
@@ -13,7 +13,6 @@ public class Enemy extends Entity {
         setEarthProof(RANDOM.nextBoolean());
         setFireProof(RANDOM.nextBoolean());
         setIceProof(RANDOM.nextBoolean());
-        System.out.println("s a executat");
     }
 
     @Override
