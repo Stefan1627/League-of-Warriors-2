@@ -1,6 +1,9 @@
 package org.game.entities;
 
+import java.util.Random;
+
 public class Warrior extends Character{
+    private final Random random = new Random();
 
     public void evolve() {
         setStrength((getStrength() + 5) * getCurrLvl());
@@ -9,10 +12,22 @@ public class Warrior extends Character{
     }
 
     public void receiveDamage(int damage) {
-        super.receiveDamage(damage - getCharisma() / 2 - getDexterity() / 5);
+        if (getCharisma() > 50 && getDexterity() > 50) {
+            if (random.nextBoolean()) {
+                damage /= 2;
+            }
+        }
+
+        super.receiveDamage(damage);
     }
 
     public int getDamage() {
-        return getStrength() * 2 + getDexterity() + getCharisma();
+        int multiplier = 1;
+        if (getStrength() > 50) {
+            if (random.nextBoolean()) {
+                multiplier = 2;
+            }
+        }
+        return (getStrength() * 2 + getDexterity() + getCharisma()) * multiplier;
     }
 }
