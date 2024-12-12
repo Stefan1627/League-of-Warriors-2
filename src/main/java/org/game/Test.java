@@ -44,7 +44,7 @@ public class Test {
         game.getMap().setCellType(game.getMap(), CallEntityType.PORTAL, 4, 4);
     }
 
-    public static void main() throws IOException {
+    public static void main(String[] args) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         Input inputData = objectMapper.readValue(new File(filePath1), Input.class);

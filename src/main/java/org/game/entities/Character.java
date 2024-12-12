@@ -19,10 +19,13 @@ import lombok.Setter;
 public abstract class Character extends Entity{
     @JsonProperty("name")
     private String name;
+
     @JsonProperty("experience")
     private int currExp;
+
     @JsonProperty("level")
     private int currLvl;
+
     private int strength;
     private int dexterity;
     private int charisma;

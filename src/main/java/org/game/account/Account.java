@@ -15,7 +15,7 @@ public class Account {
     @JsonUnwrapped
     private Information info;
     private ArrayList<Character> characters;
-    @Getter
+
     @JsonProperty("maps_completed")
     private int gamesPlayed;
 
@@ -50,6 +50,7 @@ public class Account {
         private Credentials credentials;
         private String name;
         private String country;
+
         @JsonProperty("favorite_games")
         private List<String> favoriteGames;
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Main {
     private static final String filePath1 = "accounts.json";
 
-    public static void main() throws IOException {
+    public static void main(String[] args) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         Input inputData = objectMapper.readValue(new File(filePath1), Input.class);
