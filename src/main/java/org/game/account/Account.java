@@ -14,6 +14,7 @@ import java.util.List;
 public class Account {
     @JsonUnwrapped
     private Information info;
+
     private ArrayList<Character> characters;
 
     @JsonProperty("maps_completed")
@@ -38,11 +39,8 @@ public class Account {
     }
 
     public boolean accountExists(String email, String password) {
-        if (info.credentials.getEmail().equals(email)
-            && info.credentials.getPassword().equals(password)) {
-            return true;
-        }
-        return false;
+        return info.credentials.getEmail().equals(email)
+                && info.credentials.getPassword().equals(password);
     }
 
     @Getter @Setter
@@ -60,7 +58,6 @@ public class Account {
         public Information(Credentials credentials, List<String> favoriteGames, String name, String country) {
             this.credentials = credentials;
             this.favoriteGames = new ArrayList<>(favoriteGames);
-            Collections.sort(this.favoriteGames);
             this.name = name;
             this.country = country;
         }

@@ -34,16 +34,9 @@ public class EnemyFight {
             + "   Enemy`s Damage: " + enemy.getDamage());
 
             if (turn == 1) {
-                attackPlayer(character, enemy);
-            } else if (turn == 2) {
                 attackEnemy(character, enemy);
-            }
-
-            if (character.getSpells().isEmpty()) {
-                character.generateSpells();
-            }
-            if (enemy.getSpells().isEmpty()) {
-                enemy.generateSpells();
+            } else if (turn == 2) {
+                attackPlayer(character, enemy);
             }
         }
 
@@ -59,7 +52,7 @@ public class EnemyFight {
         return characterDead;
     }
 
-    private void attackEnemy(Character character, Enemy enemy) {
+    private void attackPlayer(Character character, Enemy enemy) {
         System.out.println("No one died yet, prepare");
         System.out.println("It`s your turn!\n");
 
@@ -88,7 +81,7 @@ public class EnemyFight {
                 normalAttack(character, enemy);
                 break;
             case 2:
-                useAbilityPlayer2_0(character, enemy);
+                useAbilityPlayer(character, enemy);
                 break;
             default:
                 System.out.println(choice + " is not a valid choice");
@@ -99,7 +92,7 @@ public class EnemyFight {
         System.out.println("End of turn");
     }
 
-    private void attackPlayer(Character character, Enemy enemy) {
+    private void attackEnemy(Character character, Enemy enemy) {
         System.out.println("Enemy`s turn!");
         System.out.println("Please wait for the enemy to choose what he want to do");
         if (notEnoughManaForAbilities(enemy)) {
@@ -142,7 +135,7 @@ public class EnemyFight {
         }
     }
 
-    private void useAbilityPlayer2_0(Character character, Enemy enemy) {
+    private void useAbilityPlayer(Character character, Enemy enemy) {
         System.out.println("Please choose what ability you want to use:");
         System.out.println("These are the spells you have mana for");
         character.printSpells();
@@ -159,10 +152,10 @@ public class EnemyFight {
             }
         } catch (NotEnoughManaException | InvalidSpellException e) {
             System.out.println(e.getMessage());
-            useAbilityPlayer2_0(character, enemy);
+            useAbilityPlayer(character, enemy);
         } catch (Exception e) {
             System.out.println("Please enter a valid number.");
-            useAbilityPlayer2_0(character, enemy);
+            useAbilityPlayer(character, enemy);
         }
 
         Spell currSpell = character.getSpells().remove(choice);

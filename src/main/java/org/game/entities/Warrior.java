@@ -11,6 +11,7 @@ public class Warrior extends Character{
         setCharisma((getCharisma() + 1) * getCurrLvl());
     }
 
+    @Override
     public void receiveDamage(int damage) {
         if (getCharisma() > 50 && getDexterity() > 50) {
             if (random.nextBoolean()) {
@@ -21,6 +22,7 @@ public class Warrior extends Character{
         super.receiveDamage(damage);
     }
 
+    @Override
     public int getDamage() {
         int multiplier = 1;
         if (getStrength() > 50) {

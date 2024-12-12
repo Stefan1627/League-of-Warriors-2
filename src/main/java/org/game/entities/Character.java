@@ -31,18 +31,16 @@ public abstract class Character extends Entity{
     private int charisma;
 
     @Override
-    public void recieveDamage(int dmg) {
+    public void receiveDamage(int dmg) {
         super.receiveDamage(dmg);
     }
 
     @Override
-    public int getDamage() {
-        return 0;
-    }
+    public abstract int getDamage();
 
     public void wonFight(int exp) {
         regenerateHealth(getHealth() * 2);
-        regenerateMana();
+        regenerateMana(getMaxMana());
         incrementExp(exp);
     }
 

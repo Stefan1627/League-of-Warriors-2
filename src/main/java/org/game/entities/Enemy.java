@@ -16,7 +16,7 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void recieveDamage(int dmg) {
+    public void receiveDamage(int dmg) {
         if (RANDOM.nextBoolean()) {
             super.receiveDamage(0);
             return;

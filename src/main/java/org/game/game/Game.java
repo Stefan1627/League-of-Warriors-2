@@ -16,12 +16,13 @@ import java.util.Scanner;
 @Getter @Setter
 public class Game {
     private static final int MIN_NUM_OF_CELLS = 8;
+    private static final int MAX_MAP_SIZE = 10;
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Random RANDOM = new Random();
     private ArrayList<Account> accounts;
+    private Grid map;
     private Account currAccount;
     private Character currCharacter;
-    private Grid map;
     private int gameLvl = 1;
     private Directions invalidDirection;
     private int length;
@@ -31,9 +32,11 @@ public class Game {
 
     public Game() {
         resetGame = false;
+        gameOver = false;
     }
 
     public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
+
         if (!resetGame) {
             this.accounts = accounts;
             chooseLoginType();
@@ -56,6 +59,7 @@ public class Game {
         }
 
         String choice;
+        System.out.println("Current Level: " + gameLvl);
         while (true) {
             map.printMap();
             ArrayList<String> availableMoves = printAvailableOptions();
@@ -65,7 +69,7 @@ public class Game {
 
             try {
                 if (!availableMoves.contains(choice)) {
-                    throw new InvalidMoveException("Invalid move, please choose from what is printed on screen");
+                    throw new InvalidMoveException();
                 }
                 if (choice.equals("q"))
                     System.exit(0);
@@ -90,6 +94,7 @@ public class Game {
         }
 
         resetGame = true;
+        gameOver = false;
         run(accounts, comingFromTest);
     }
 
@@ -102,7 +107,7 @@ public class Game {
             String choice = SCANNER.next();
             try {
                 if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
-                    throw new InvalidChooseOption("Invalid input. Please enter 1, 2, or 3.");
+                    throw new InvalidChooseOption(3);
                 }
 
                 switch (choice) {
@@ -139,7 +144,7 @@ public class Game {
             try {
                 int choiceInt = Integer.parseInt(choice);
                 if (choiceInt > i || choiceInt < 1) {
-                    throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
+                    throw new InvalidChooseOption(i);
                 }
                 currAccount = chooseAccount(choiceInt - 1);
                 break;
@@ -194,11 +199,16 @@ public class Game {
             try {
                 int choiceInt = Integer.parseInt(choice);
                 if (choiceInt > i || choiceInt < 1) {
-                    throw new InvalidChooseOption("Invalid input. Please enter a number between 1 and " + i + ".");
+                    throw new InvalidChooseOption(i);
                 }
                 currCharacter = chooseCharacter(choiceInt - 1);
                 currCharacter.setMaxMana(currCharacter.getMana());
-                break;
+                if (currCharacter.getHealth() > 0) {
+                    break;
+                } else {
+                    System.out.println("Oops... Your character is dead, you can`t play with it anymore"
+                                        + ", choose another one.");
+                }
             } catch (InvalidChooseOption e) {
                 System.out.println(e.getMessage());
             } catch (NumberFormatException e) {
@@ -216,14 +226,10 @@ public class Game {
     }
 
     private void generateLimits() {
-        while (true) {
-            length = RANDOM.nextInt( 11);
-            width = RANDOM.nextInt(11);
-
-            if (length * width >= MIN_NUM_OF_CELLS) {
-                break;
-            }
-        }
+        do {
+            length = RANDOM.nextInt(MAX_MAP_SIZE + 1);
+            width = RANDOM.nextInt(MAX_MAP_SIZE + 1);
+        } while (length * width < MIN_NUM_OF_CELLS);
     }
 
     private void handleEnemyMeeting() {
@@ -260,7 +266,8 @@ public class Game {
             }
             case CallEntityType.ENEMY -> handleEnemyMeeting();
             case CallEntityType.SANCTUARY -> {
-                currCharacter.regenerateMana();
+                System.out.println("Going through sanctuary, your mana and health regenerated");
+                currCharacter.regenerateMana(currCharacter.getMaxMana());
                 currCharacter.setHealth(Entity.MAX_HEALTH);
             }
         }

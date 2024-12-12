@@ -1,7 +1,7 @@
 package org.game.exceptions;
 
 public class InvalidMoveException extends RuntimeException{
-    public InvalidMoveException(String message){
-        super(message);
+    public InvalidMoveException() {
+        super("Invalid move, please choose from what is printed on screen");
     }
 }

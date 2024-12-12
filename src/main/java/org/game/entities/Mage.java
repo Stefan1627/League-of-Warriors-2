@@ -11,6 +11,7 @@ public class Mage extends Character {
         setCharisma((getCharisma() + 5) * getCurrLvl());
     }
 
+    @Override
     public void receiveDamage(int damage) {
         if (getStrength() > 50 && getDexterity() > 50) {
             if (random.nextBoolean()) {
@@ -21,6 +22,7 @@ public class Mage extends Character {
         super.receiveDamage(damage);
     }
 
+    @Override
     public int getDamage() {
         int multiplier = 1;
         if (getCharisma() > 50) {

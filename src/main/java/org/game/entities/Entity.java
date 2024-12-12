@@ -2,7 +2,6 @@ package org.game.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.game.game.Battle;
 import org.game.spells.Earth;
 import org.game.spells.Fire;
 import org.game.spells.Ice;
@@ -14,7 +13,7 @@ import java.util.Random;
 @Getter @Setter
 public abstract class Entity implements Battle {
     public static final int MAX_HEALTH = 100;
-    private  int maxMana;
+    private int maxMana;
     private ArrayList<Spell> spells;
     private int health;
     private int mana;
@@ -26,19 +25,17 @@ public abstract class Entity implements Battle {
         spells = new ArrayList<>();
         health = 100;
         mana = 100;
-        fireProof = false;
-        iceProof = false;
-        earthProof = false;
     }
 
     public void regenerateHealth(int health) {
         this.health = Math.min(health, MAX_HEALTH);
     }
 
-    public void regenerateMana() {
-        mana = maxMana;
+    public void regenerateMana(int mana) {
+        this.mana = Math.min(MAX_HEALTH, mana);
     }
 
+    @Override
     public void receiveDamage(int damage) {
         health -= damage;
     }
@@ -62,6 +59,8 @@ public abstract class Entity implements Battle {
         boolean hasIce = false;
         boolean hasFire = false;
         boolean hasEarth = false;
+
+        spells.clear();
 
         for (int i = 0; i < numOfSpells; i++) {
             int damage = rand.nextInt(5,16);
@@ -97,7 +96,7 @@ public abstract class Entity implements Battle {
         }
     }
 
-    public boolean useAbility(Spell spell, Entity enemy) {
+    public void useAbility(Spell spell, Entity enemy) {
         System.out.println("Used Ability: " + spell);
 
         if ((spell.getClass() == Fire.class &&
@@ -114,11 +113,10 @@ public abstract class Entity implements Battle {
             } else {
                 System.out.println("Oops... Your enemy got scammed");
             }
-            return false;
+            return;
         }
 
         enemy.receiveDamage(spell.getDamage());
 
-        return true;
     }
 }
