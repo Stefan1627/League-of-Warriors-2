@@ -30,6 +30,8 @@ public abstract class Character extends Entity{
     private int dexterity;
     private int charisma;
 
+    private int enemiesKilled;
+
     @Override
     public void receiveDamage(int dmg) {
         super.receiveDamage(dmg);
