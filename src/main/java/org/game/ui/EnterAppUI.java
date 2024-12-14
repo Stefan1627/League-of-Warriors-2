@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 import static org.game.ui.game.FinalPageUI.setupFinalPageUI;
+import static org.game.ui.login.EnterCredentials.setupEnterCredentials;
+import static org.game.ui.login.ChooseAcc.setupChooseAcc;
 
 public class EnterAppUI extends JFrame {
 
@@ -22,9 +24,13 @@ public class EnterAppUI extends JFrame {
 
         JPanel contentPanel = createStartPage(cardLayout, mainPanel, frame, background);
         JPanel finalPage = createFinalPage(screenSize);
+        JPanel enterCredentials = createEnterCredentials();
+        JPanel chooseAcc = createChooseAcc();
 
         mainPanel.add(contentPanel, "StartPage");
         mainPanel.add(finalPage, "EndPage");
+        mainPanel.add(enterCredentials, "EnterCredentials");
+        mainPanel.add(chooseAcc, "ChooseAcc");
 
         frame.add(mainPanel);
         frame.setVisible(true);
@@ -77,12 +83,12 @@ public class EnterAppUI extends JFrame {
     }
 
     private void addStartPageButtons(JPanel contentPanel, GridBagConstraints gbc, CardLayout cardLayout, JPanel mainPanel, JFrame frame) {
-        JButton button = new JButton("Go to Final Page");
+        JButton button = new JButton("Enter Credentials");
         button.setFont(new Font("Arial", Font.BOLD, 15));
         button.setBackground(Color.CYAN);
         button.setPreferredSize(new Dimension(200, 75));
 
-        JButton button2 = new JButton("Exit");
+        JButton button2 = new JButton("Choose from existing accounts");
         button2.setFont(new Font("Arial", Font.BOLD, 15));
         button2.setBackground(Color.CYAN);
         button2.setPreferredSize(new Dimension(200, 75));
@@ -96,16 +102,29 @@ public class EnterAppUI extends JFrame {
         contentPanel.add(button2, gbc);
 
         button.addActionListener(e -> {
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            cardLayout.show(mainPanel, "EndPage");
+            cardLayout.show(mainPanel, "EnterCredentials");
         });
 
-        button2.addActionListener(e -> System.exit(0));
+        button2.addActionListener(e -> {
+            cardLayout.show(mainPanel, "ChooseAcc");
+        });
     }
 
     private JPanel createFinalPage(Dimension screenSize) {
         JPanel finalPage = new JPanel(new BorderLayout());
         setupFinalPageUI(finalPage, "/heroes/warrior-male2.png", screenSize);
         return finalPage;
+    }
+
+    private JPanel createEnterCredentials() {
+        JPanel enterCredentials = new JPanel();
+        setupEnterCredentials(enterCredentials);
+        return enterCredentials;
+    }
+
+    private JPanel createChooseAcc() {
+        JPanel chooseAcc = new JPanel(new BorderLayout());
+        setupChooseAcc(chooseAcc);
+        return chooseAcc;
     }
 }
