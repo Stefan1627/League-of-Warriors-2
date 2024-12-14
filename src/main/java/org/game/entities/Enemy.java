@@ -6,6 +6,10 @@ public class Enemy extends Entity {
     private static final Random RANDOM = new Random();
     private final int damage;
 
+    /**
+     * Method Enemy
+     * Randomly generates an enemy
+     */
     public Enemy() {
         damage = RANDOM.nextInt(15, 25);
         setHealth(RANDOM.nextInt(60, 100));

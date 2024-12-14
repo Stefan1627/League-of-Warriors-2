@@ -17,21 +17,30 @@ public class EnemyFight {
     private boolean characterDead = false;
     private boolean enemyDead = false;
 
+    /**
+     * Choosing the first turn to be enemy`s turn
+     */
     public EnemyFight() {
         turn = 1;
     }
 
+    /**
+     * Method fight handle the overall fight and handles if someone died
+     * @param character the player`s character
+     * @param enemy the enemy generated on Cell
+     * @return if the character died on not
+     */
     public boolean fight(Character character, Enemy enemy) {
         character.generateSpells();
         enemy.generateSpells();
 
         while (!characterDead && !enemyDead) {
             System.out.println("Your Health: " + character.getHealth()
-            + "   Your Mana: " + character.getMana()
-            + "   Your Damage: " + character.getDamage());
+                    + "   Your Mana: " + character.getMana()
+                    + "   Your Damage: " + character.getDamage());
             System.out.println("Enemy`s Health: " + enemy.getHealth()
-            + "   Enemy`s Mana: " + enemy.getMana()
-            + "   Enemy`s Damage: " + enemy.getDamage());
+                    + "   Enemy`s Mana: " + enemy.getMana()
+                    + "   Enemy`s Damage: " + enemy.getDamage());
 
             if (turn == 1) {
                 attackEnemy(character, enemy);
@@ -52,10 +61,16 @@ public class EnemyFight {
         return characterDead;
     }
 
+    /**
+     * Method attackPlayer handles the use input and applies the attack option
+     * @param character the player`s character
+     * @param enemy the generated enemy
+     */
     private void attackPlayer(Character character, Enemy enemy) {
         System.out.println("No one died yet, prepare");
         System.out.println("It`s your turn!\n");
 
+        // verifying if the player has enough mana
         if (notEnoughManaForAbilities(character)) {
             System.out.println("You don't have enough mana to use a spell");
             System.out.println("You will use a normal attack this turn!\n");
@@ -76,6 +91,7 @@ public class EnemyFight {
             }
         }
 
+        // handle the player`s choice
         switch (choice) {
             case 1:
                 normalAttack(character, enemy);
@@ -86,12 +102,19 @@ public class EnemyFight {
             default:
                 System.out.println(choice + " is not a valid choice");
                 break;
-            }
+        }
 
+        // alternating the turns
         turn = 1;
         System.out.println("End of turn");
     }
 
+    /**
+     * Method attackEnemy handles the enemy`s attack
+     * Randomly generates the enemy`s option and handles it
+     * @param character the player`s character
+     * @param enemy the generated enemy
+     */
     private void attackEnemy(Character character, Enemy enemy) {
         System.out.println("Enemy`s turn!");
         System.out.println("Please wait for the enemy to choose what he want to do");
@@ -113,10 +136,16 @@ public class EnemyFight {
                 break;
         }
 
+        // alternating the turns
         turn = 2;
         System.out.println("End of turn\n");
     }
 
+    /**
+     * Method normalAttack handles the normal attack from both sides depending on turn
+     * @param character the player`s character
+     * @param enemy the generated enemy
+     */
     private void normalAttack(Character character, Enemy enemy) {
         if (turn == 2) {
             enemy.setHealth(enemy.getHealth() - character.getDamage());
@@ -135,6 +164,11 @@ public class EnemyFight {
         }
     }
 
+    /**
+     * Method useAbilityPlayer handles the player`s useAbility menu and applies the ability
+     * @param character the player`s character
+     * @param enemy the generated enemy
+     */
     private void useAbilityPlayer(Character character, Enemy enemy) {
         System.out.println("Please choose what ability you want to use:");
         System.out.println("These are the spells you have mana for");
@@ -168,6 +202,12 @@ public class EnemyFight {
         }
     }
 
+    /**
+     * Method useAbilityEnemy
+     * Randomly chooses from the enemy`s spell list and applies it on the character
+     * @param character the player`s character
+     * @param enemy the generated enemy
+     */
     private void useAbilityEnemy(Character character, Enemy enemy) {
         do {
             choice = rand.nextInt(enemy.getSpells().size());
@@ -183,10 +223,18 @@ public class EnemyFight {
         }
     }
 
+    /**
+     * @param character the entity to be verified
+     * @return if the character verified has enough mana to use the chosen ability
+     */
     private boolean hasEnoughMana(Entity character) {
         return character.getMana() < character.getSpells().get(choice).getMana();
     }
 
+    /**
+     * @param character the entity to be verified
+     * @return if the character verified has enough mana to let him choose an ability from list
+     */
     private boolean notEnoughManaForAbilities(Entity character) {
         int min = character.getMana();
         for (Spell spell : character.getSpells()) {

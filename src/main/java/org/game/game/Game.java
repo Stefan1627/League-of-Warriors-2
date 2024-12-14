@@ -35,6 +35,12 @@ public class Game {
         gameOver = false;
     }
 
+    /**
+     * Method run handles the game logic overall
+     * @param accounts the list of the accounts loaded from json file
+     * @param comingFromTest it represents if the method is called from the main game
+     *                       or from the test class
+     */
     public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
 
         if (!resetGame) {
@@ -51,10 +57,12 @@ public class Game {
             map.setCurrentCharacter(currCharacter);
             map.selectStartingCell();
         } else {
+            // if comingFromTest is true the limits are already set
             length = 5;
             width = 5;
             map = Grid.generateMap(length, width);
             map.setCurrentCharacter(currCharacter);
+            // setting up the test map configuration
             Test.setDefaultMap(this);
         }
 
@@ -93,11 +101,18 @@ public class Game {
             }
         }
 
+        // if the program reaches this point that means that the player`s
+        // character died and the player should choose again a character to play with
         resetGame = true;
         gameOver = false;
         run(accounts, comingFromTest);
     }
 
+    /**
+     * Mehtod chooseLoginType handles the player`s input for a choosing a login type
+     * 1. Enter the email and password
+     * 2. Choosing from a list of accounts(easier to debug)
+     */
     private void chooseLoginType() {
         System.out.println("Please select the login type.");
         System.out.println("1. Enter Credentials(email + password) manually;");
@@ -130,6 +145,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method handleChoosingAccount handles the case in which the player`s choice is to
+     * choose from the list of existing accounts
+     */
     private void handleChoosingAccount() {
         int i = 1;
         System.out.println("Please choose an account by entering the index of the account.");
@@ -156,6 +175,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method handleLoginInput handles the case in which the player`s choice is to
+     * enter the email and password for the account he wants to play with
+     */
     private void handleLoginInput() {
         int numOfTries = 3;
         while (numOfTries > 0) {
@@ -184,6 +207,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method setCharacter gives the player a list of existing characters on the respective
+     * account and lets him choose one of them
+     */
     private void setCharacter() {
         int i = 1;
 
@@ -194,20 +221,22 @@ public class Game {
         }
         i--;
 
+        // clearing the buffer
+        SCANNER.nextLine();
+
         while (true) {
-            String choice = SCANNER.next();
+            String choice = SCANNER.nextLine();
             try {
                 int choiceInt = Integer.parseInt(choice);
                 if (choiceInt > i || choiceInt < 1) {
                     throw new InvalidChooseOption(i);
                 }
                 currCharacter = chooseCharacter(choiceInt - 1);
-                currCharacter.setMaxMana(currCharacter.getMana());
                 if (currCharacter.getHealth() > 0) {
                     break;
                 } else {
                     System.out.println("Oops... Your character is dead, you can`t play with it anymore"
-                                        + ", choose another one.");
+                            + ", choose another one.");
                 }
             } catch (InvalidChooseOption e) {
                 System.out.println(e.getMessage());
@@ -217,14 +246,34 @@ public class Game {
         }
     }
 
+    /**
+     * @param index the index of the account in the list of accounts
+     * @return the specified account
+     */
     private Account chooseAccount(int index) {
         return accounts.get(index);
     }
 
+    /**
+     * @param index the index of the character in the list of characters
+     * @return the specified character
+     */
     private Character chooseCharacter(int index) {
         return currAccount.getCharacters().get(index);
     }
 
+    /**
+     * Method setCharacterAttributes is setting up the character for the game
+     */
+    private void setCharacterAttributes() {
+        currCharacter.setStrength(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
+        currCharacter.setDexterity(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
+        currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
+    }
+
+    /**
+     * Method generateLimits randomly generates the length and width of the map
+     */
     private void generateLimits() {
         do {
             length = RANDOM.nextInt(MAX_MAP_SIZE + 1);
@@ -232,6 +281,10 @@ public class Game {
         } while (length * width < MIN_NUM_OF_CELLS);
     }
 
+    /**
+     * Method handleEnemyMeeting handles the case of stepping on an Enemy Cell
+     * It generates a fight and setting the gameOver in function of the player`s character health
+     */
     private void handleEnemyMeeting() {
         EnemyFight enemyFight = new EnemyFight();
         Enemy enemy = new Enemy();
@@ -243,6 +296,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method resetGame starts a new game
+     * @param comingFromTest in case of this argument is true the program stops
+     */
     private void resetGame(boolean comingFromTest) {
         resetGame = true;
 
@@ -254,6 +311,10 @@ public class Game {
         run(accounts, false);
     }
 
+    /**
+     * Methos handleCellEvent handles the Cell event after every move
+     * @param comingFromTest passed further to resetGame
+     */
     private void handleCellEvent(boolean comingFromTest) {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
@@ -267,18 +328,16 @@ public class Game {
             case CallEntityType.ENEMY -> handleEnemyMeeting();
             case CallEntityType.SANCTUARY -> {
                 System.out.println("Going through sanctuary, your mana and health regenerated");
-                currCharacter.regenerateMana(currCharacter.getMaxMana());
+                currCharacter.regenerateMana();
                 currCharacter.setHealth(Entity.MAX_HEALTH);
             }
         }
     }
 
-    private void setCharacterAttributes() {
-        currCharacter.setStrength(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
-        currCharacter.setDexterity(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
-        currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
-    }
-
+    /**
+     * Method printAvailableOptions verifies all options and print the available ones
+     * @return a list of available options
+     */
     private ArrayList<String> printAvailableOptions() {
         ArrayList<String> res = new ArrayList<>();
         int currX = map.getCurrentCell().getRow();

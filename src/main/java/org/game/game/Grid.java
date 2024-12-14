@@ -29,12 +29,17 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
+    /**
+     * Method generateMap
+     * Generates a Grid of Cells and give a specific type for each Cell
+     * @param length the length of the grid
+     * @param width the width of the grid
+     * @return the generate map
+     */
     public static Grid generateMap(int length, int width) {
         Random rand = new Random();
 
-        if (map == null) {
-            map = new Grid(length, width);
-        }
+        map = new Grid(length, width);
 
         for (int i = 0; i < 2; i++) {
             setCellType(CallEntityType.SANCTUARY, rand);
@@ -55,6 +60,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return map;
     }
 
+    /**
+     * Method getRandomCallEntityType
+     * @return a random type from the enum to put on a Cell
+     */
     private static CallEntityType getRandomCallEntityType() {
         Random random = new Random();
 
@@ -66,6 +75,12 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return filteredTypes.get(random.nextInt(filteredTypes.size()));
     }
 
+    /**
+     * Method setCellType
+     * Giving type to a random Cell from the grid
+     * @param type the type to be added
+     * @param rand the random object for generation the coordinates
+     */
     private static void setCellType(CallEntityType type, Random rand) {
         while(true) {
             int row = rand.nextInt(gridLength);
@@ -79,6 +94,13 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
+    /**
+     * Method setCellType
+     * Giving type to an already chosen Cell
+     * @param type the type to be added
+     * @param row the row of the chosen one
+     * @param col the col of the chosen one
+     */
     public void setCellType(CallEntityType type, int row, int col) {
         Cell cell = map.get(row).get(col);
         cell.setType(type);
@@ -88,6 +110,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
+    /**
+     * Method selectStartingCell
+     * Randomly generates some coords to put the player on at the start of the game
+     */
     public void selectStartingCell() {
         Random rand = new Random();
 
@@ -103,11 +129,19 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
+    /**
+     * Method putPlayerOnCell
+     * After a move the Cell type needs to be updated for printing the correct map
+     */
     private void putPlayerOnCell() {
         oldType = get(currentCell.getRow()).get(currentCell.getCol()).getType();
         setCellType(CallEntityType.PLAYER, currentCell.getRow(), currentCell.getCol());
     }
 
+    /**
+     * Method goNorth
+     * Moves the player to the first Cell in north direction
+     */
     public void goNorth() {
         System.out.println("Went North");
 
@@ -117,6 +151,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         putPlayerOnCell();
     }
 
+    /**
+     * Method goNorth
+     * Moves the player to the first Cell in south direction
+     */
     public void goSouth() {
         System.out.println("Went South");
 
@@ -126,6 +164,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         putPlayerOnCell();
     }
 
+    /**
+     * Method goNorth
+     * Moves the player to the first Cell in east direction
+     */
     public void goEast() {
         System.out.println("Went East");
 
@@ -135,6 +177,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         putPlayerOnCell();
     }
 
+    /**
+     * Method goNorth
+     * Moves the player to the first Cell in west direction
+     */
     public void goWest() {
         System.out.println("Went West");
 
@@ -144,6 +190,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         putPlayerOnCell();
     }
 
+    /**
+     * Method printMap
+     * Printing the map as the player should see it
+     */
     public void printMap() {
         System.out.println("----------------------");
         for (int i = 0; i < gridLength; i++) {

@@ -5,6 +5,10 @@ import java.util.Random;
 public class Warrior extends Character{
     private final Random random = new Random();
 
+    /**
+     * Method evolve
+     * Incrementing the attributes of the character after incrementing the level
+     */
     public void evolve() {
         setStrength((getStrength() + 5) * getCurrLvl());
         setDexterity((getDexterity() + 1) * getCurrLvl());

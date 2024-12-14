@@ -30,6 +30,10 @@ public class Account {
         this.gamesPlayed = gamesPlayed;
     }
 
+    /**
+     * Method getInfo
+     * @return a list with the essential information for choosing an account
+     */
     public List<String> getInfo() {
         List<String> res = new ArrayList<>();
         res.add(info.name);
@@ -38,6 +42,12 @@ public class Account {
         return res;
     }
 
+    /**
+     * Verifying if the email and password are correct for an account
+     * @param email the user input email
+     * @param password the user input password
+     * @return true or false
+     */
     public boolean accountExists(String email, String password) {
         return info.credentials.getEmail().equals(email)
                 && info.credentials.getPassword().equals(password);

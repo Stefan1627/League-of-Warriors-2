@@ -13,7 +13,7 @@ import java.util.Random;
 @Getter @Setter
 public abstract class Entity implements Battle {
     public static final int MAX_HEALTH = 100;
-    private int maxMana;
+    private static final int MAX_MANA = 100;
     private ArrayList<Spell> spells;
     private int health;
     private int mana;
@@ -23,16 +23,16 @@ public abstract class Entity implements Battle {
 
     public Entity() {
         spells = new ArrayList<>();
-        health = 100;
-        mana = 100;
+        health = MAX_HEALTH;
+        mana = MAX_MANA;
     }
 
     public void regenerateHealth(int health) {
         this.health = Math.min(health, MAX_HEALTH);
     }
 
-    public void regenerateMana(int mana) {
-        this.mana = Math.min(MAX_HEALTH, mana);
+    public void regenerateMana() {
+        mana = MAX_MANA;
     }
 
     @Override
@@ -40,6 +40,10 @@ public abstract class Entity implements Battle {
         health -= damage;
     }
 
+    /**
+     * Method printSpells
+     * Printing the list of spells for choosing one
+     */
     public void printSpells() {
         int i = 1;
         for (Spell spell : spells) {
@@ -52,6 +56,10 @@ public abstract class Entity implements Battle {
         }
     }
 
+    /**
+     * Method generateSpells
+     * Randomly generating the list of spells with all the attributes
+     */
     public void generateSpells() {
         Random rand = new Random();
         int numOfSpells = rand.nextInt(4) + 3;
@@ -67,7 +75,9 @@ public abstract class Entity implements Battle {
             int manaCost = rand.nextInt(2, 6);
 
             Spell spell;
-            int type = rand.nextInt(3); // 0 = Ice, 1 = Fire, 2 = Earth
+
+            // 0 = Ice, 1 = Fire, 2 = Earth
+            int type = rand.nextInt(3);
 
             switch (type) {
                 case 0:
@@ -89,6 +99,7 @@ public abstract class Entity implements Battle {
             spells.add(spell);
         }
 
+        // verifying that the list of spells contains at least one spell of each type
         if (spells.size() < 6) {
             if (!hasIce) spells.add(new Ice(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
             if (!hasFire) spells.add(new Fire(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
@@ -96,15 +107,21 @@ public abstract class Entity implements Battle {
         }
     }
 
+    /**
+     * Method useAbility
+     * Verifying if the enemy is imune to the spell, then applying the spell on him
+     * @param spell the chosen spell to be used
+     * @param enemy the entity on which the spell will be used
+     */
     public void useAbility(Spell spell, Entity enemy) {
         System.out.println("Used Ability: " + spell);
 
         if ((spell.getClass() == Fire.class &&
-            (enemy.isFireProof() || enemy.getClass() == Warrior.class))
-            || (spell.getClass() == Ice.class &&
-            (enemy.isIceProof() || enemy.getClass() == Mage.class))
-            || (spell.getClass() == Earth.class &&
-            (enemy.isEarthProof() || enemy.getClass() == Rogue.class))) {
+                (enemy.isFireProof() || enemy.getClass() == Warrior.class))
+                || (spell.getClass() == Ice.class &&
+                (enemy.isIceProof() || enemy.getClass() == Mage.class))
+                || (spell.getClass() == Earth.class &&
+                (enemy.isEarthProof() || enemy.getClass() == Rogue.class))) {
 
             if (enemy.isFireProof() || enemy.isIceProof() || enemy.isEarthProof()) {
                 System.out.println("Oops... Your enemy is " +

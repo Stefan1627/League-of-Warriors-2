@@ -30,8 +30,6 @@ public abstract class Character extends Entity{
     private int dexterity;
     private int charisma;
 
-    private int enemiesKilled;
-
     @Override
     public void receiveDamage(int dmg) {
         super.receiveDamage(dmg);
@@ -40,25 +38,39 @@ public abstract class Character extends Entity{
     @Override
     public abstract int getDamage();
 
+    public abstract void evolve();
+
+    /**
+     * Method wonFight
+     * It regenrates health and mana after a fight
+     * + it increments the character xp
+     * @param exp the amount of exp to increment(randomly generated)
+     */
     public void wonFight(int exp) {
         regenerateHealth(getHealth() * 2);
-        regenerateMana(getMaxMana());
+        regenerateMana();
         incrementExp(exp);
     }
 
-    public void evolve() {
-        System.out.println("Evolving " + getName());
-    }
-
+    /**
+     * Method incrementExp
+     * It increments the character xp and handle the level up case
+     * @param exp the amount of exp to increment(randomly generated)
+     */
     public void incrementExp(int exp) {
         currExp += exp;
-        if (currExp >= 200) {
-            currExp -= 200;
+        if (currExp >= 100) {
+            currExp -= 100;
             currLvl++;
             evolve();
         }
     }
 
+    /**
+     * Method toString
+     * generating the string for printing in choosing list
+     * @return all details about a character
+     */
     @Override
     public String toString() {
         String res = "";
