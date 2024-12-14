@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -54,12 +55,11 @@ class BookRenderer extends JPanel implements ListCellRenderer<Book> {
         titleLabel.setForeground(Color.WHITE);
         authorLabel.setForeground(Color.LIGHT_GRAY);
 
-        // Load icon
-        if (!book.getIconPath().isEmpty()) {
-            iconLabel.setIcon(new ImageIcon(book.getIconPath()));
-        } else {
-            iconLabel.setIcon(null);
-        }
+        // Load and scale icon
+        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/blank.png")));
+        Image scaledImage = originalIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        iconLabel.setIcon(new ImageIcon(scaledImage));
+
 
         // Apply background colors
         if (isSelected) {
@@ -84,12 +84,12 @@ public class ChooseAcc {
 
         // Sample books
         Book[] books = {
-                new Book("C++ Programming", "Author1", "c++.png"),
-                new Book("Java Programming", "Author2", "java.png"),
-                new Book("C# Programming", "Author3", "csharp.png"),
-                new Book("iOS Programming", "Author4", "ios.png"),
-                new Book("Windows Phone Programming", "Author5", "windows.png"),
-                new Book("Android Programming", "Author6", "android.png")
+                new Book("C++ Programming", "Author1", "/blank.png"),
+                new Book("Java Programming", "Author2", "/blank.png"),
+                new Book("C# Programming", "Author3", "/blank.png"),
+                new Book("iOS Programming", "Author4", "/blank.png"),
+                new Book("Windows Phone Programming", "Author5", "/blank.png"),
+                new Book("Android Programming", "Author6", "/blank.png")
         };
 
         DefaultListModel<Book> bookModel = new DefaultListModel<>();
@@ -142,6 +142,17 @@ public class ChooseAcc {
         detailsPanel.add(nameField);
         detailsPanel.add(authorLabel);
         detailsPanel.add(authorField);
+
+        bookJList.addListSelectionListener((ListSelectionEvent e) -> {
+            if (!e.getValueIsAdjusting()) {
+                Book selectedBook = bookJList.getSelectedValue();
+                if (selectedBook != null) {
+                    // Set text in the fields
+                    nameField.setText(selectedBook.getName());
+                    authorField.setText(selectedBook.getAuthor());
+                }
+            }
+        });
 
         // Main Panel with BorderLayout
         panel.add(listWrapper, BorderLayout.CENTER);

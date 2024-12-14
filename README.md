@@ -1,3 +1,7 @@
-daca e ok ca Information e public
+TODOS
 
-de intrebat daca cand iti alegi un caracter nou pastrezi nivelul
+ChooseCharacter()
+
+De legat login la joc
+
+de facut game
