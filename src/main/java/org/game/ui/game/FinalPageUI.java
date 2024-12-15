@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class FinalPageUI {
-    private static final Color background = new Color(30, 30, 30);
 
     public static void setupFinalPageUI(JPanel panel, String photoPath, Dimension screenSize) {
         // Load image
@@ -19,7 +20,7 @@ public class FinalPageUI {
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.add(imageLabel, BorderLayout.CENTER);
         imagePanel.setBorder(null);
-        imagePanel.setBackground(background);
+        imagePanel.setBackground(BACKGROUND_COLOR);
 
         // Text Area for Final Page
         JTextArea textArea = new JTextArea("Hero Description:\n\nName: Warrior\nClass: Fighter\nAbilities: \n- Slash\n- Shield Block\n- Battle Cry");
@@ -28,17 +29,17 @@ public class FinalPageUI {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-        textArea.setBackground(background);
+        textArea.setBackground(BACKGROUND_COLOR);
 
         JScrollPane textScrollPane = new JScrollPane(textArea);
         textScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
-        textScrollPane.setBackground(background);
-        textScrollPane.getViewport().setBackground(background);
+        textScrollPane.setBackground(BACKGROUND_COLOR);
+        textScrollPane.getViewport().setBackground(BACKGROUND_COLOR);
 
         JPanel textPanel = new JPanel(new BorderLayout());
         textPanel.add(textScrollPane, BorderLayout.CENTER);
         textPanel.setBorder(null);
-        textPanel.setBackground(background);
+        textPanel.setBackground(BACKGROUND_COLOR);
 
         // Create JSplitPane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, imagePanel, textPanel);
@@ -50,6 +51,6 @@ public class FinalPageUI {
 
         // Add split pane to the panel
         panel.add(splitPane, BorderLayout.CENTER);
-        panel.setBackground(background);
+        panel.setBackground(BACKGROUND_COLOR);
     }
 }

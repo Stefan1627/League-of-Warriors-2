@@ -1,14 +1,15 @@
 package org.game.ui.game;
 
 import org.game.entities.Character;
-import org.game.spells.Spell;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class SpellsUI {
     public static void setupSpellsUI(JPanel panel, Character character) {
-        panel.setBackground(new Color(30,30,30));
+        panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

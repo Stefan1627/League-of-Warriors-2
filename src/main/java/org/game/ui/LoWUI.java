@@ -7,10 +7,10 @@ import java.awt.*;
 
 import static org.game.ui.login.EnterCredentials.setupEnterCredentials;
 import static org.game.ui.login.ChooseAcc.setupChooseAcc;
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class LoWUI extends JFrame {
     // private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final Color background = new Color(30, 30, 30);
 
     public void startApplication(Game game) {
         JFrame frame = createMainFrame();
@@ -39,7 +39,7 @@ public class LoWUI extends JFrame {
 
     private JPanel createStartPage(CardLayout cardLayout, JPanel mainPanel) {
         JPanel contentPanel = new JPanel(new GridBagLayout());
-        contentPanel.setBackground(background);
+        contentPanel.setBackground(BACKGROUND_COLOR);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1.0;

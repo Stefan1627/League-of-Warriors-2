@@ -3,6 +3,7 @@ package org.game.ui.login;
 import org.game.entities.Character;
 import org.game.game.Game;
 import org.game.ui.LoWUI;
+import org.game.ui.game.GameUI;
 import org.game.ui.game.SpellsUI;
 import org.game.ui.utils.CustomRenderer;
 import org.game.ui.utils.UIUtils;
@@ -11,10 +12,12 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class ChooseCharacter {
     public static void setupChooseCharacter(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
         // Set background color
-        panel.setBackground(new Color(30, 30, 30));
+        panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new BorderLayout());
 
         DefaultListModel<Character> characterModel = new DefaultListModel<>();
@@ -24,7 +27,7 @@ public class ChooseCharacter {
 
         JList<Character> characterJList = new JList<>(characterModel);
         characterJList.setCellRenderer(new CustomRenderer<>());
-        characterJList.setBackground(new Color(30, 30, 30));
+        characterJList.setBackground(BACKGROUND_COLOR);
 
         // Center the JList in its container
         JPanel listWrapper = UIUtils.createListWrapper(characterJList);
@@ -34,14 +37,15 @@ public class ChooseCharacter {
                 Character selectedCharacter = characterJList.getSelectedValue();
                 if (selectedCharacter != null) {
                     game.setCurrCharacter(selectedCharacter);
-                    game.getCurrCharacter().generateSpells();
+                    game.setCharacterAttributes();
+                    game.generateMapUI();
 
-                    JPanel spellsPanel = new JPanel();
-                    SpellsUI.setupSpellsUI(spellsPanel, game.getCurrCharacter());
+                    JPanel gamePanel = new JPanel();
+                    GameUI.setupGameUI(gamePanel, game, frame, cardLayout);
 
                     LoWUI.setFullscreen(frame);
-                    panel.getParent().add(spellsPanel, "SpellsUI");
-                    cardLayout.show(panel.getParent(), "SpellsUI");
+                    panel.getParent().add(gamePanel, "Game");
+                    cardLayout.show(panel.getParent(), "Game");
                 }
             }
         });

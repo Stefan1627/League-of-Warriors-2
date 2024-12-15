@@ -8,7 +8,6 @@ import org.game.entities.Character;
 import org.game.entities.Enemy;
 import org.game.entities.Entity;
 import org.game.exceptions.*;
-import org.game.ui.LoWUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -291,7 +290,7 @@ public class Game {
     /**
      * Method setCharacterAttributes is setting up the character for the game
      */
-    private void setCharacterAttributes() {
+    public void setCharacterAttributes() {
         currCharacter.setStrength(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
         currCharacter.setDexterity(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
         currCharacter.setCharisma(RANDOM.nextInt(1,11) * currCharacter.getCurrLvl());
@@ -300,7 +299,7 @@ public class Game {
     /**
      * Method generateLimits randomly generates the length and width of the map
      */
-    private void generateLimits() {
+    public void generateLimits() {
         do {
             length = RANDOM.nextInt(MAX_MAP_SIZE + 1);
             width = RANDOM.nextInt(MAX_MAP_SIZE + 1);
@@ -341,7 +340,7 @@ public class Game {
      * Methos handleCellEvent handles the Cell event after every move
      * @param comingFromTest passed further to resetGame
      */
-    private void handleCellEvent(boolean comingFromTest) {
+    public void handleCellEvent(boolean comingFromTest) {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
                 System.out.println("Going through portal");
@@ -404,5 +403,25 @@ public class Game {
         res.add("r");
         res.add("q");
         return res;
+    }
+
+    public boolean canMove(String direction) {
+        int currX = map.getCurrentCell().getRow();
+        int currY = map.getCurrentCell().getCol();
+        // Example logic for movement
+        return switch (direction) {
+            case "North" -> currX > 0;
+            case "South" -> currX < length - 1;
+            case "West" -> currY > 0;
+            case "East" -> currY < width - 1;
+            default -> false;
+        };
+    }
+
+    public void generateMapUI() {
+        generateLimits();
+        map = Grid.generateMap(length, width);
+        map.setCurrentCharacter(currCharacter);
+        map.selectStartingCell();
     }
 }

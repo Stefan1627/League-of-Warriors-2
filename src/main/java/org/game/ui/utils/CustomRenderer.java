@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class CustomRenderer<T> extends JPanel implements ListCellRenderer<T> {
     private final JLabel titleLabel = new JLabel();
     private final JLabel subtitleLabel = new JLabel();
@@ -43,7 +45,7 @@ public class CustomRenderer<T> extends JPanel implements ListCellRenderer<T> {
         if (isSelected) {
             setBackground(Color.RED);
         } else if (index % 2 == 0) {
-            setBackground(new Color(30, 30, 30));
+            setBackground(BACKGROUND_COLOR);
         } else {
             setBackground(new Color(45, 45, 45));
         }

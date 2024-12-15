@@ -6,10 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class SpellPanel extends JPanel {
     public SpellPanel(Spell spell) {
         setLayout(new BorderLayout());
-        setBackground(new Color(30, 30, 30));
+        setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
         // Upper Part: Image

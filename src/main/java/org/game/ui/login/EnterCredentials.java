@@ -6,12 +6,14 @@ import org.game.ui.utils.UIUtils;
 import javax.swing.*;
 import java.awt.*;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class EnterCredentials {
     private static int loginAttempts = 0;
 
     public static void setupEnterCredentials(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
         panel.setLayout(new GridBagLayout());
-        panel.setBackground(new Color(30, 30, 30));
+        panel.setBackground(BACKGROUND_COLOR);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);

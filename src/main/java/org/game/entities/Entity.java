@@ -13,7 +13,7 @@ import java.util.Random;
 @Getter @Setter
 public abstract class Entity implements Battle {
     public static final int MAX_HEALTH = 100;
-    private static final int MAX_MANA = 100;
+    public static final int MAX_MANA = 100;
     private ArrayList<Spell> spells;
     private int health;
     private int mana;

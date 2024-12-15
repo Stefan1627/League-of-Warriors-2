@@ -8,9 +8,11 @@ import org.game.ui.utils.UIUtils;
 import javax.swing.*;
 import java.awt.*;
 
+import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+
 public class ChooseAcc {
     public static void setupChooseAcc(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
-        panel.setBackground(new Color(30, 30, 30));
+        panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new BorderLayout());
 
         DefaultListModel<Account> accountModel = new DefaultListModel<>();
@@ -20,7 +22,7 @@ public class ChooseAcc {
 
         JList<Account> accountList = new JList<>(accountModel);
         accountList.setCellRenderer(new CustomRenderer<>());
-        accountList.setBackground(new Color(30, 30, 30));
+        accountList.setBackground(BACKGROUND_COLOR);
 
         accountList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
