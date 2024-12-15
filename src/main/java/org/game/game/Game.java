@@ -8,6 +8,7 @@ import org.game.entities.Character;
 import org.game.entities.Enemy;
 import org.game.entities.Entity;
 import org.game.exceptions.*;
+import org.game.ui.LoWUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +20,7 @@ public class Game {
     private static final int MAX_MAP_SIZE = 10;
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Random RANDOM = new Random();
-    private ArrayList<Account> accounts;
+    public ArrayList<Account> accounts;
     private Grid map;
     private Account currAccount;
     private Character currCharacter;
@@ -35,6 +36,12 @@ public class Game {
         gameOver = false;
     }
 
+    public Game(final ArrayList<Account> accounts) {
+        resetGame = false;
+        gameOver = false;
+        this.accounts = accounts;
+    }
+
     /**
      * Method run handles the game logic overall
      * @param accounts the list of the accounts loaded from json file
@@ -42,7 +49,6 @@ public class Game {
      *                       or from the test class
      */
     public void run(final ArrayList<Account> accounts, boolean comingFromTest) {
-
         if (!resetGame) {
             this.accounts = accounts;
             chooseLoginType();
@@ -173,6 +179,26 @@ public class Game {
                 System.out.println("Invalid input. Please enter a numeric value.");
             }
         }
+    }
+
+    /**
+     * Method handleLoginInput handles the case in which the player`s choice is to
+     * enter the email and password for the account he wants to play with
+     */
+    public boolean handleLoginInput(String email, String password) {
+        currAccount = null;
+        for (Account account : accounts) {
+            if(account.accountExists(email, password)) {
+                currAccount = account;
+            }
+        }
+
+        if (currAccount == null) {
+            System.out.println("Invalid email or password. ");
+        } else {
+            return true;
+        }
+        return false;
     }
 
     /**
