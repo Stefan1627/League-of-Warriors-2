@@ -13,6 +13,8 @@ public abstract class Spell {
         this.mana = mana;
     }
 
+    public abstract String getImagePath();
+
     @Override
     public abstract String toString();
 }

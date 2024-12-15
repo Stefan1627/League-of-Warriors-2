@@ -9,7 +9,7 @@ import java.awt.*;
 public class EnterCredentials {
     private static int loginAttempts = 0;
 
-    public static void setupEnterCredentials(JPanel panel, Game game, CardLayout cardLayout) {
+    public static void setupEnterCredentials(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
         panel.setLayout(new GridBagLayout());
         panel.setBackground(new Color(30, 30, 30));
 
@@ -25,7 +25,8 @@ public class EnterCredentials {
         JPasswordField passwordField = UIUtils.createPasswordField(20, Color.BLACK);
 
         JButton loginButton = UIUtils.createButton("Login", Color.BLACK, new Font("Arial", Font.BOLD, 14));
-        loginButton.addActionListener(e -> handleLogin(panel, game, cardLayout, emailField, passwordField));
+        loginButton.addActionListener(e -> handleLogin(panel, game, cardLayout, emailField,
+                                                                    passwordField, frame));
 
         // Add components to panel
         gbc.gridx = 0;
@@ -49,7 +50,8 @@ public class EnterCredentials {
         panel.add(loginButton, gbc);
     }
 
-    private static void handleLogin(JPanel panel, Game game, CardLayout cardLayout, JTextField emailField, JPasswordField passwordField) {
+    private static void handleLogin(JPanel panel, Game game, CardLayout cardLayout, JTextField emailField,
+                                    JPasswordField passwordField, JFrame frame) {
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -63,7 +65,7 @@ public class EnterCredentials {
             loginAttempts = 0;
 
             JPanel chooseCharacterPanel = new JPanel();
-            ChooseCharacter.setupChooseCharacter(chooseCharacterPanel, game);
+            ChooseCharacter.setupChooseCharacter(chooseCharacterPanel, game, cardLayout, frame);
 
             panel.getParent().add(chooseCharacterPanel, "ChooseCharacter");
             cardLayout.show(panel.getParent(), "ChooseCharacter");

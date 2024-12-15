@@ -62,48 +62,41 @@ public abstract class Entity implements Battle {
      */
     public void generateSpells() {
         Random rand = new Random();
-        int numOfSpells = rand.nextInt(4) + 3;
-
-        boolean hasIce = false;
-        boolean hasFire = false;
-        boolean hasEarth = false;
+        Spell spell;
 
         spells.clear();
 
-        for (int i = 0; i < numOfSpells; i++) {
-            int damage = rand.nextInt(5,16);
-            int manaCost = rand.nextInt(2, 6);
+        int damage = rand.nextInt(5,16);
+        int manaCost = rand.nextInt(2, 6);
+        spell = new Earth(damage, manaCost);
+        spells.add(spell);
 
-            Spell spell;
+        damage = rand.nextInt(5,16);
+        manaCost = rand.nextInt(2, 6);
+        spell = new Fire(damage, manaCost);
+        spells.add(spell);
+
+        damage = rand.nextInt(5,16);
+        manaCost = rand.nextInt(2, 6);
+        spell = new Ice(damage, manaCost);
+        spells.add(spell);
+
+        int numOfSpells = rand.nextInt(4);
+
+        for (int i = 0; i < numOfSpells; i++) {
+            damage = rand.nextInt(5,16);
+            manaCost = rand.nextInt(2, 6);
 
             // 0 = Ice, 1 = Fire, 2 = Earth
             int type = rand.nextInt(3);
 
-            switch (type) {
-                case 0:
-                    spell = new Ice(damage, manaCost);
-                    hasIce = true;
-                    break;
-                case 1:
-                    spell = new Fire(damage, manaCost);
-                    hasFire = true;
-                    break;
-                case 2:
-                    spell = new Earth(damage, manaCost);
-                    hasEarth = true;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + type);
-            }
-
+            spell = switch (type) {
+                case 0 -> new Ice(damage, manaCost);
+                case 1 -> new Fire(damage, manaCost);
+                case 2 -> new Earth(damage, manaCost);
+                default -> throw new IllegalStateException("Unexpected value: " + type);
+            };
             spells.add(spell);
-        }
-
-        // verifying that the list of spells contains at least one spell of each type
-        if (spells.size() < 6) {
-            if (!hasIce) spells.add(new Ice(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
-            if (!hasFire) spells.add(new Fire(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
-            if (!hasEarth) spells.add(new Earth(rand.nextInt(31) + 10, rand.nextInt(21) + 5));
         }
     }
 

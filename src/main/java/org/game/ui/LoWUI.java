@@ -1,19 +1,14 @@
 package org.game.ui;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.game.fileio.Input;
 import org.game.game.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 import static org.game.ui.login.EnterCredentials.setupEnterCredentials;
 import static org.game.ui.login.ChooseAcc.setupChooseAcc;
 
 public class LoWUI extends JFrame {
-    private static final String filePath1 = "accounts.json";
     // private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Color background = new Color(30, 30, 30);
 
@@ -23,8 +18,8 @@ public class LoWUI extends JFrame {
         JPanel mainPanel = new JPanel(cardLayout);
 
         JPanel contentPanel = createStartPage(cardLayout, mainPanel);
-        JPanel enterCredentials = createEnterCredentials(game, cardLayout);
-        JPanel chooseAcc = createChooseAcc(game, cardLayout);
+        JPanel enterCredentials = createEnterCredentials(game, cardLayout, frame);
+        JPanel chooseAcc = createChooseAcc(game, cardLayout, frame);
 
         mainPanel.add(contentPanel, "StartPage");
         mainPanel.add(enterCredentials, "EnterCredentials");
@@ -104,15 +99,19 @@ public class LoWUI extends JFrame {
         button2.addActionListener(e -> cardLayout.show(mainPanel, "ChooseAcc"));
     }
 
-    private JPanel createEnterCredentials(Game game, CardLayout cardLayout) {
+    private JPanel createEnterCredentials(Game game, CardLayout cardLayout, JFrame frame) {
         JPanel enterCredentials = new JPanel();
-        setupEnterCredentials(enterCredentials, game, cardLayout);
+        setupEnterCredentials(enterCredentials, game, cardLayout, frame);
         return enterCredentials;
     }
 
-    private JPanel createChooseAcc(Game game, CardLayout cardLayout) {
+    private JPanel createChooseAcc(Game game, CardLayout cardLayout, JFrame frame) {
         JPanel chooseAcc = new JPanel(new BorderLayout());
-        setupChooseAcc(chooseAcc, game, cardLayout);
+        setupChooseAcc(chooseAcc, game, cardLayout, frame);
         return chooseAcc;
+    }
+
+    public static void setFullscreen(JFrame frame) {
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }

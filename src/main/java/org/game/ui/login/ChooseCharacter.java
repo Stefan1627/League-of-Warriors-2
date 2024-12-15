@@ -2,6 +2,8 @@ package org.game.ui.login;
 
 import org.game.entities.Character;
 import org.game.game.Game;
+import org.game.ui.LoWUI;
+import org.game.ui.game.SpellsUI;
 import org.game.ui.utils.CustomRenderer;
 import org.game.ui.utils.UIUtils;
 
@@ -10,7 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 
 public class ChooseCharacter {
-    public static void setupChooseCharacter(JPanel panel, Game game) {
+    public static void setupChooseCharacter(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
         // Set background color
         panel.setBackground(new Color(30, 30, 30));
         panel.setLayout(new BorderLayout());
@@ -32,7 +34,14 @@ public class ChooseCharacter {
                 Character selectedCharacter = characterJList.getSelectedValue();
                 if (selectedCharacter != null) {
                     game.setCurrCharacter(selectedCharacter);
-                    // Set text in the fields
+                    game.getCurrCharacter().generateSpells();
+
+                    JPanel spellsPanel = new JPanel();
+                    SpellsUI.setupSpellsUI(spellsPanel, game.getCurrCharacter());
+
+                    LoWUI.setFullscreen(frame);
+                    panel.getParent().add(spellsPanel, "SpellsUI");
+                    cardLayout.show(panel.getParent(), "SpellsUI");
                 }
             }
         });
