@@ -10,9 +10,9 @@ public class Mage extends Character {
      * Incrementing the attributes of the character after incrementing the level
      */
     public void evolve() {
-        setStrength((getStrength() + 1) * getCurrLvl());
-        setDexterity((getDexterity() + 1)  * getCurrLvl());
-        setCharisma((getCharisma() + 5) * getCurrLvl());
+        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), Integer.MAX_VALUE));
+        setDexterity(Math.min((getDexterity() + 1) * getCurrLvl(), Integer.MAX_VALUE));
+        setCharisma(Math.min((getCharisma() + 5) * getCurrLvl(), Integer.MAX_VALUE));
     }
 
     @Override
@@ -24,6 +24,15 @@ public class Mage extends Character {
         }
 
         super.receiveDamage(damage);
+    }
+
+    @Override
+    public void setImage() {
+        if (random.nextBoolean()) {
+            setImagePath("mage-male" + random.nextInt(1, 3) + ".png");
+        } else {
+            setImagePath("mage-female" + random.nextInt(1, 3) + ".png");
+        }
     }
 
     @Override

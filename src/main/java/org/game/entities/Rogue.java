@@ -10,9 +10,9 @@ public class Rogue extends Character {
      * Incrementing the attributes of the character after incrementing the level
      */
     public void evolve() {
-        setStrength((getStrength() + 1) * getCurrLvl());
-        setDexterity((getDexterity() + 5) * getCurrLvl());
-        setCharisma((getCharisma() + 1) * getCurrLvl());
+        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), Integer.MAX_VALUE));
+        setDexterity(Math.min((getDexterity() + 5) * getCurrLvl(), Integer.MAX_VALUE));
+        setCharisma(Math.min((getCharisma() + 1) * getCurrLvl(), Integer.MAX_VALUE));
     }
 
     @Override
@@ -24,6 +24,15 @@ public class Rogue extends Character {
         }
 
         super.receiveDamage(damage);
+    }
+
+    @Override
+    public void setImage() {
+        if (random.nextBoolean()) {
+            setImagePath("rogue-male" + random.nextInt(1, 3) + ".png");
+        } else {
+            setImagePath("rogue-female" + random.nextInt(1, 3) + ".png");
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ public abstract class Entity implements Battle {
     private boolean fireProof;
     private boolean iceProof;
     private boolean earthProof;
+    private String imagePath;
 
     public Entity() {
         spells = new ArrayList<>();
@@ -39,6 +40,8 @@ public abstract class Entity implements Battle {
     public void receiveDamage(int damage) {
         health -= damage;
     }
+
+    public abstract void setImage();
 
     /**
      * Method printSpells

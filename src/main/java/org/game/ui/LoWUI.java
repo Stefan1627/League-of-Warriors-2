@@ -8,10 +8,9 @@ import java.awt.*;
 import static org.game.ui.login.EnterCredentials.setupEnterCredentials;
 import static org.game.ui.login.ChooseAcc.setupChooseAcc;
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+import static org.game.ui.utils.UIUtils.createButton;
 
 public class LoWUI extends JFrame {
-    // private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
     public void startApplication(Game game) {
         JFrame frame = createMainFrame();
         CardLayout cardLayout = new CardLayout();
@@ -33,6 +32,7 @@ public class LoWUI extends JFrame {
         JFrame frame = new JFrame("League of Warriors");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
+        frame.setMinimumSize(new Dimension(800, 500));
         frame.setLocationRelativeTo(null);
         return frame;
     }
@@ -76,26 +76,30 @@ public class LoWUI extends JFrame {
     }
 
     private void addStartPageButtons(JPanel contentPanel, GridBagConstraints gbc, CardLayout cardLayout, JPanel mainPanel) {
-        JButton button = new JButton("Enter Credentials");
-        button.setFont(new Font("Arial", Font.BOLD, 15));
-        button.setBackground(Color.CYAN);
-        button.setPreferredSize(new Dimension(200, 75));
+        // Create buttons with adjusted size to fit the text
+        JButton button = createButton("Enter Credentials", Color.BLACK,
+                new Font("Arial", Font.BOLD, 15));
+        button.setPreferredSize(new Dimension(280, 75));
 
-        JButton button2 = new JButton("Choose from existing accounts");
-        button2.setFont(new Font("Arial", Font.BOLD, 15));
-        button2.setBackground(Color.CYAN);
-        button2.setPreferredSize(new Dimension(200, 75));
+        JButton button2 = createButton("Choose from existing accounts", Color.BLACK,
+                new Font("Arial", Font.BOLD, 15));
+        button2.setPreferredSize(new Dimension(280, 75));
 
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 20, 10, 20);
+
+        // Add first button
         gbc.gridwidth = 1;
         gbc.gridy = 3;
         gbc.gridx = 0;
         contentPanel.add(button, gbc);
 
+        // Add second button
         gbc.gridx = 1;
         contentPanel.add(button2, gbc);
 
+        // Add action listeners
         button.addActionListener(e -> cardLayout.show(mainPanel, "EnterCredentials"));
-
         button2.addActionListener(e -> cardLayout.show(mainPanel, "ChooseAcc"));
     }
 

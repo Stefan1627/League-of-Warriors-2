@@ -1,14 +1,21 @@
 package org.game.ui.game;
 
+import org.game.entities.Character;
+import org.game.game.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
+import static org.game.ui.utils.UIUtils.createButton;
 
 public class FinalPageUI {
+    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    public static void setupFinalPageUI(JPanel panel, String photoPath, Dimension screenSize) {
+    public static void setupFinalPageUI(Character character, JPanel panel,
+                                        String photoPath, CardLayout cardLayout,
+                                        JPanel mainPanel, Game game) {
         // Load image
         ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(FinalPageUI.class.getResource(photoPath)));
 
@@ -23,8 +30,72 @@ public class FinalPageUI {
         imagePanel.setBackground(BACKGROUND_COLOR);
 
         // Text Area for Final Page
-        JTextArea textArea = new JTextArea("Hero Description:\n\nName: Warrior\nClass: Fighter\nAbilities: \n- Slash\n- Shield Block\n- Battle Cry");
-        textArea.setFont(new Font("Serif", Font.PLAIN, 18));
+        JScrollPane textScrollPane = getJScrollPane(character);
+        textScrollPane.getViewport().setBackground(BACKGROUND_COLOR);
+
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(textScrollPane, BorderLayout.CENTER);
+        textPanel.setBorder(null);
+        textPanel.setBackground(BACKGROUND_COLOR);
+
+        // Buttons Panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JButton button1 = createButton("Exit", Color.BLACK,
+                new Font("Arial", Font.BOLD, 30));
+        JButton button2 = createButton("Choose another character", Color.BLACK,
+                new Font("Arial", Font.BOLD, 30));
+        JButton button3 = createButton("Continue", Color.BLACK,
+                new Font("Arial", Font.BOLD, 30));
+
+        // Add actions to buttons
+        button1.addActionListener(e -> System.exit(0));
+        button2.addActionListener(e -> cardLayout.show(mainPanel.getParent(), "ChooseCharacter"));
+        button3.addActionListener(e -> {
+            game.generateMapUI();
+            GameUI.updateUI();
+            cardLayout.show(mainPanel.getParent(), "Game");
+
+        });
+
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        buttonPanel.add(button3);
+        buttonPanel.setBackground(BACKGROUND_COLOR);
+
+        // Split the right side into text at the top and buttons at the bottom
+        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textPanel, buttonPanel);
+        rightSplitPane.setDividerLocation((int) (screenSize.height * 0.75));
+        rightSplitPane.setDividerSize(0);
+        rightSplitPane.setEnabled(false);
+        rightSplitPane.setResizeWeight(1);
+        rightSplitPane.setBorder(null);
+
+        // Create JSplitPane to split the screen in half
+        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, imagePanel, rightSplitPane);
+        mainSplitPane.setBorder(BorderFactory.createEmptyBorder());
+        mainSplitPane.setDividerLocation((int) (screenSize.width * 0.5));
+        mainSplitPane.setDividerSize(0);
+        mainSplitPane.setEnabled(false);
+        mainSplitPane.setResizeWeight(0.5);
+        mainSplitPane.setBorder(null);
+
+        // Add split pane to the panel
+        panel.setLayout(new BorderLayout());
+        panel.add(mainSplitPane);
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        panel.setBackground(BACKGROUND_COLOR);
+    }
+
+    private static JScrollPane getJScrollPane(Character character) {
+        JTextArea textArea = new JTextArea("Name: " + character.getName()
+                + "\n\nProfession: " + character.getClass().getSimpleName()
+                + "\nLevel: " + character.getCurrLvl()
+                + "\nExperience: " + character.getCurrExp()
+                + "\nKilled Enemies: " + character.getKills()
+                + "\nStrength: " + character.getStrength()
+                + "\nCharisma: " + character.getCharisma()
+                + "\nDexterity: " + character.getDexterity());
+        textArea.setFont(new Font("Serif", Font.PLAIN, 25));
         textArea.setForeground(Color.WHITE);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -34,23 +105,6 @@ public class FinalPageUI {
         JScrollPane textScrollPane = new JScrollPane(textArea);
         textScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
         textScrollPane.setBackground(BACKGROUND_COLOR);
-        textScrollPane.getViewport().setBackground(BACKGROUND_COLOR);
-
-        JPanel textPanel = new JPanel(new BorderLayout());
-        textPanel.add(textScrollPane, BorderLayout.CENTER);
-        textPanel.setBorder(null);
-        textPanel.setBackground(BACKGROUND_COLOR);
-
-        // Create JSplitPane
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, imagePanel, textPanel);
-        splitPane.setDividerLocation(screenSize.width / 2);
-        splitPane.setDividerSize(0);
-        splitPane.setEnabled(false);
-        splitPane.setResizeWeight(0);
-        splitPane.setBorder(null);
-
-        // Add split pane to the panel
-        panel.add(splitPane, BorderLayout.CENTER);
-        panel.setBackground(BACKGROUND_COLOR);
+        return textScrollPane;
     }
 }

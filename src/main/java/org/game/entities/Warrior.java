@@ -10,9 +10,9 @@ public class Warrior extends Character{
      * Incrementing the attributes of the character after incrementing the level
      */
     public void evolve() {
-        setStrength((getStrength() + 5) * getCurrLvl());
-        setDexterity((getDexterity() + 1) * getCurrLvl());
-        setCharisma((getCharisma() + 1) * getCurrLvl());
+        setStrength(Math.min((getStrength() + 5) * getCurrLvl(), Integer.MAX_VALUE));
+        setDexterity(Math.min((getDexterity() + 1) * getCurrLvl(), Integer.MAX_VALUE));
+        setCharisma(Math.min((getCharisma() + 1) * getCurrLvl(), Integer.MAX_VALUE));
     }
 
     @Override
@@ -24,6 +24,15 @@ public class Warrior extends Character{
         }
 
         super.receiveDamage(damage);
+    }
+
+    @Override
+    public void setImage() {
+        if (random.nextBoolean()) {
+            setImagePath("warrior-male" + random.nextInt(1, 3) + ".png");
+        } else {
+            setImagePath("warrior-female" + random.nextInt(1, 3) + ".png");
+        }
     }
 
     @Override

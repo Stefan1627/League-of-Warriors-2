@@ -1,5 +1,5 @@
 TODOS
 
-de facut game
+de implementat FinalPage
 
 de facut enemyfight

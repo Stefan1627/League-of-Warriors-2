@@ -20,6 +20,8 @@ public class GameUI {
     // Reference to the Game object
     private static Game currentGame;
 
+    private static JPanel statsPanel;
+
     public static void setupGameUI(JPanel panel, Game game, Frame frame, CardLayout cardLayout) {
         currentGame = game;
         panel.setLayout(new BorderLayout());
@@ -50,10 +52,10 @@ public class GameUI {
         controlsPanel.setBorder(BorderFactory.createEmptyBorder());
 
         // Bottom Stats Panel
-        JPanel bottomStatsPanel = createStatsPanel(game);
+        statsPanel = createStatsPanel(game);
 
         // Split left panel vertically
-        JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controlsPanel, bottomStatsPanel);
+        JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controlsPanel, statsPanel);
         verticalSplitPane.setDividerLocation(0.3);
         verticalSplitPane.setResizeWeight(0.7);
         verticalSplitPane.setDividerSize(2);
@@ -65,8 +67,9 @@ public class GameUI {
         return leftPanel;
     }
 
+
     private static JPanel createStatsPanel(Game game) {
-        JPanel statsPanel = new JPanel();
+        statsPanel = new JPanel(); // Initialize the static statsPanel
         statsPanel.setLayout(new GridLayout(4, 1, 5, 5));
         statsPanel.setBackground(BACKGROUND_COLOR);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -82,6 +85,12 @@ public class GameUI {
         statsPanel.add(experienceLabel);
         statsPanel.add(manaLabel);
         statsPanel.add(healthLabel);
+
+        // Store the labels in the statsPanel for updates
+        statsPanel.putClientProperty("levelLabel", levelLabel);
+        statsPanel.putClientProperty("experienceLabel", experienceLabel);
+        statsPanel.putClientProperty("manaLabel", manaLabel);
+        statsPanel.putClientProperty("healthLabel", healthLabel);
 
         return statsPanel;
     }
@@ -153,5 +162,23 @@ public class GameUI {
 
         // Update the controls
         ((ControlsPanel) controlsPanel).updateControls(currentGame);
+
+        // Update the stats panel
+        JLabel levelLabel = (JLabel) statsPanel.getClientProperty("levelLabel");
+        JLabel experienceLabel = (JLabel) statsPanel.getClientProperty("experienceLabel");
+        JLabel manaLabel = (JLabel) statsPanel.getClientProperty("manaLabel");
+        JLabel healthLabel = (JLabel) statsPanel.getClientProperty("healthLabel");
+
+        levelLabel.setText("Level: " + currentGame.getCurrCharacter().getCurrLvl());
+        experienceLabel.setText("Experience: " + currentGame.getCurrCharacter().getCurrExp());
+        manaLabel.setText("Mana: " + currentGame.getCurrCharacter().getMana()
+                + " / " + Entity.MAX_MANA);
+        healthLabel.setText("Health: " + currentGame.getCurrCharacter().getHealth()
+                + " / " + Entity.MAX_HEALTH);
+
+        // Repaint the stats panel to reflect updates
+        statsPanel.revalidate();
+        statsPanel.repaint();
     }
+
 }

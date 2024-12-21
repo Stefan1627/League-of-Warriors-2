@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Random;
+
 @Getter @Setter
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -30,6 +32,8 @@ public abstract class Character extends Entity{
     private int dexterity;
     private int charisma;
 
+    private int kills = 0;
+
     @Override
     public void receiveDamage(int dmg) {
         super.receiveDamage(dmg);
@@ -47,6 +51,7 @@ public abstract class Character extends Entity{
      * @param exp the amount of exp to increment(randomly generated)
      */
     public void wonFight(int exp) {
+        kills++;
         regenerateHealth(getHealth() * 2);
         regenerateMana();
         incrementExp(exp);

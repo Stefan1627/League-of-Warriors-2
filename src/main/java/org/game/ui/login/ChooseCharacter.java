@@ -3,6 +3,7 @@ package org.game.ui.login;
 import org.game.entities.Character;
 import org.game.game.Game;
 import org.game.ui.LoWUI;
+import org.game.ui.game.FinalPageUI;
 import org.game.ui.game.GameUI;
 import org.game.ui.game.SpellsUI;
 import org.game.ui.utils.CustomRenderer;
@@ -38,6 +39,7 @@ public class ChooseCharacter {
                 if (selectedCharacter != null) {
                     game.setCurrCharacter(selectedCharacter);
                     game.setCharacterAttributes();
+                    game.getCurrCharacter().setImage();
                     game.generateMapUI();
 
                     JPanel gamePanel = new JPanel();

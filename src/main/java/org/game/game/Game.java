@@ -359,6 +359,26 @@ public class Game {
         }
     }
 
+    public boolean handleCellEventUI() {
+        switch (map.getOldType()) {
+            case CallEntityType.PORTAL -> {
+                System.out.println("Going through portal");
+                currCharacter.incrementExp(gameLvl * 5);
+                gameLvl++;
+                currAccount.setGamesPlayed(currAccount.getGamesPlayed() + 1);
+                currCharacter.evolve();
+                return true;
+            }
+            case CallEntityType.ENEMY -> handleEnemyMeeting();
+            case CallEntityType.SANCTUARY -> {
+                System.out.println("Going through sanctuary, your mana and health regenerated");
+                currCharacter.regenerateMana();
+                currCharacter.setHealth(Entity.MAX_HEALTH);
+            }
+        }
+        return false;
+    }
+
     /**
      * Method printAvailableOptions verifies all options and print the available ones
      * @return a list of available options

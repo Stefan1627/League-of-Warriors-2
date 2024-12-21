@@ -1,5 +1,6 @@
 package org.game.ui.game;
 
+import org.game.entities.Character;
 import org.game.game.Game;
 
 import javax.swing.*;
@@ -35,28 +36,47 @@ public class ControlsPanel extends JPanel {
         // Add Action Listeners
         northButton.addActionListener(e -> {
             game.getMap().goNorth();
-            game.handleCellEvent(false);
+            if(game.handleCellEventUI()) {
+                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+            }
             GameUI.updateUI();
         });
         westButton.addActionListener(e -> {
             game.getMap().goWest();
-            game.handleCellEvent(false);
+            if(game.handleCellEventUI()) {
+                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+            }
             GameUI.updateUI();
         });
         southButton.addActionListener(e -> {
             game.getMap().goSouth();
-            game.handleCellEvent(false);
+            if(game.handleCellEventUI()) {
+                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+            }
             GameUI.updateUI();
         });
         eastButton.addActionListener(e -> {
             game.getMap().goEast();
-            game.handleCellEvent(false);
+            if(game.handleCellEventUI()) {
+                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+            }
             GameUI.updateUI();
         });
         chooseCharacterButton.addActionListener(e -> chooseAnotherCharacter(frame, panel, cardLayout));
 
         // Initial visibility check
         updateControls(game);
+    }
+
+    private void generateFinalPage(Character character, JPanel panel, CardLayout cardLayout, Game game) {
+        System.out.println("Going through portal...");
+
+        JPanel finalPanel = new JPanel();
+        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(), cardLayout, panel, game);
+
+        // Show the "Final" panel
+        panel.getParent().add(finalPanel, "Final");
+        cardLayout.show(panel.getParent(), "Final");
     }
 
     // Helper to create styled buttons
