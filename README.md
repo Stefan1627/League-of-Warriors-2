@@ -1,9 +1,10 @@
 <<<<<<< Updated upstream
 TODOS
 
-de implementat FinalPage
-
 de facut enemyfight
+
+de adaugat la inceput lista de comenzi
+
 =======
 # Proiect Java: Joc de Aventură RPG
 

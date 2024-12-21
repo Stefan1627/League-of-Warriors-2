@@ -3,6 +3,7 @@ package org.game.ui.login;
 import org.game.entities.Character;
 import org.game.game.Game;
 import org.game.ui.LoWUI;
+import org.game.ui.game.ControlsInfo;
 import org.game.ui.game.FinalPageUI;
 import org.game.ui.game.GameUI;
 import org.game.ui.game.SpellsUI;
@@ -42,12 +43,11 @@ public class ChooseCharacter {
                     game.getCurrCharacter().setImage();
                     game.generateMapUI();
 
-                    JPanel gamePanel = new JPanel();
-                    GameUI.setupGameUI(gamePanel, game, frame, cardLayout);
+                    JPanel controlsInfoPanel = new JPanel();
+                    ControlsInfo.setupControlsInfo(controlsInfoPanel, game, frame, cardLayout);
 
-                    LoWUI.setFullscreen(frame);
-                    panel.getParent().add(gamePanel, "Game");
-                    cardLayout.show(panel.getParent(), "Game");
+                    panel.getParent().add(controlsInfoPanel, "Controls");
+                    cardLayout.show(panel.getParent(), "Controls");
                 }
             }
         });
