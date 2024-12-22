@@ -1,6 +1,8 @@
 package org.game.ui.game;
 
+import org.game.entities.Enemy;
 import org.game.spells.*;
+import org.game.entities.Character;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,9 @@ import java.util.Objects;
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class SpellPanel extends JPanel {
-    public SpellPanel(Spell spell) {
+    public SpellPanel(Spell spell, JPanel panel, CardLayout cardLayout,
+                      Character character, Enemy enemy) {
+        setPreferredSize(new Dimension(200, 200));
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
@@ -30,8 +34,17 @@ public class SpellPanel extends JPanel {
         selectButton.setBackground(Color.CYAN);
         selectButton.setForeground(Color.BLACK);
         selectButton.setFocusPainted(false);
-        selectButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
-                spell.getClass().getSimpleName() + " selected!"));
+        selectButton.addActionListener(_ -> {
+            JOptionPane.showMessageDialog(this,
+                    spell.getClass().getSimpleName() + " selected!");
+
+            character.getSpells().remove(spell);
+            character.setMana(character.getMana() - spell.getMana());
+            spell.visit(enemy);
+
+            FightUI.updateUI();
+            cardLayout.show(panel.getParent(), "Fight");
+        });
 
         // SplitPane for Upper (Image) and Middle (Description)
         JSplitPane upperSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imageLabel, descriptionPanel);
@@ -43,7 +56,7 @@ public class SpellPanel extends JPanel {
         // SplitPane for Upper (Image + Description) and Lower (Button)
         JSplitPane mainSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperSplit, selectButton);
         mainSplit.setDividerSize(2);
-        mainSplit.setDividerLocation(200);
+        mainSplit.setDividerLocation(400);
         mainSplit.setResizeWeight(0.8);
         mainSplit.setEnabled(false);
 

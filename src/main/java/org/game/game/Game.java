@@ -386,7 +386,7 @@ public class Game {
                 return 1;
             }
             case CallEntityType.ENEMY -> {
-                handleEnemyMeeting();
+                System.out.println("Enemy fight");
                 return 2;
             }
             case CallEntityType.SANCTUARY -> {

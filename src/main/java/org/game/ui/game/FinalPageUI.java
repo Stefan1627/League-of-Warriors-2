@@ -7,27 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
-import static org.game.ui.utils.UIUtils.createButton;
+import static org.game.ui.utils.UIUtils.*;
 
 public class FinalPageUI {
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static void setupFinalPageUI(Character character, JPanel panel,
                                         String photoPath, CardLayout cardLayout,
                                         JPanel mainPanel, Game game) {
-        // Load image
-        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(FinalPageUI.class.getResource(photoPath)));
-
-        // Create and configure JLabel for the image
-        JLabel imageLabel = new JLabel(new ImageIcon(originalIcon.getImage()));
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Wrap the image in a JPanel with fixed dimensions
-        JPanel imagePanel = new JPanel(new BorderLayout());
-        imagePanel.add(imageLabel, BorderLayout.CENTER);
-        imagePanel.setBorder(null);
-        imagePanel.setBackground(BACKGROUND_COLOR);
+        JPanel imagePanel = createPhotoPanel(photoPath);
 
         // Text Area for Final Page
         JScrollPane textScrollPane = getJScrollPane(character);

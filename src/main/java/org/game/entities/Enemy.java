@@ -33,9 +33,9 @@ public class Enemy extends Entity {
     public void setImage() {
         Random rand = new Random();
         if (rand.nextBoolean()) {
-            setImagePath("enemy-male.png");
+            setImagePath("/enemy-male.png");
         } else {
-            setImagePath("enemy-female.png");
+            setImagePath("/enemy-female.png");
         }
     }
 

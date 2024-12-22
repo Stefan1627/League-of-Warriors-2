@@ -52,7 +52,7 @@ public class GameUI {
         controlsPanel.setBorder(BorderFactory.createEmptyBorder());
 
         // Bottom Stats Panel
-        statsPanel = createStatsPanel(game);
+        createStatsPanel(game);
 
         // Split left panel vertically
         JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controlsPanel, statsPanel);
@@ -68,7 +68,7 @@ public class GameUI {
     }
 
 
-    private static JPanel createStatsPanel(Game game) {
+    private static void createStatsPanel(Game game) {
         statsPanel = new JPanel(); // Initialize the static statsPanel
         statsPanel.setLayout(new GridLayout(4, 1, 5, 5));
         statsPanel.setBackground(BACKGROUND_COLOR);
@@ -91,11 +91,9 @@ public class GameUI {
         statsPanel.putClientProperty("experienceLabel", experienceLabel);
         statsPanel.putClientProperty("manaLabel", manaLabel);
         statsPanel.putClientProperty("healthLabel", healthLabel);
-
-        return statsPanel;
     }
 
-    private static JLabel createStatLabel(String text) {
+    static JLabel createStatLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.WHITE);

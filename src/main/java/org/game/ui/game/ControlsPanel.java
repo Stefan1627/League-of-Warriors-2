@@ -61,9 +61,11 @@ public class ControlsPanel extends JPanel {
     }
 
     private void handleCellEventUI(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
-        if(game.handleCellEventUI() == 1) {
+        int res = game.handleCellEventUI();
+
+        if(res == 1) {
             generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
-        } else if (game.handleCellEventUI() == 2) {
+        } else if (res == 2) {
             generateEnemyFight(game, panel, cardLayout, frame);
         }
     }

@@ -28,17 +28,13 @@ public class Main {
             case 1 -> {
                 Game game = Game.createGame();
                 game.run(inputData.getAccounts(), false);
-                break;
             }
             case 2 -> {
                 Game game = Game.createGame(inputData.getAccounts());
                 LoWUI loWUI = new LoWUI();
                 loWUI.startApplication(game);
-                break;
             }
-            case 3 -> {
-                System.exit(0);
-            }
+            case 3 -> System.exit(0);
         }
     }
 }

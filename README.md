@@ -1,10 +1,10 @@
 <<<<<<< Updated upstream
 TODOS
 
-de facut enemyfight
+de facut integrarea comenzilor, attackEnemy, UseSpellEnemy,
+verificare daca moare cineva
 
-de adaugat la inceput lista de comenzi
-
+DE INTREBAT NEAPARAT DESPRE FACTORY DESIGN
 =======
 # Proiect Java: Joc de Aventură RPG
 

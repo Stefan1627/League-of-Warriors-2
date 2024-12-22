@@ -1,9 +1,13 @@
 package org.game.ui.utils;
 
+import org.game.ui.game.FinalPageUI;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class UIUtils {
+    public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static final Color BACKGROUND_COLOR = new Color(30, 30, 30);
 
     public static JLabel createLabel(String text, int fontSize, Color foreground) {
@@ -65,4 +69,20 @@ public class UIUtils {
         return listWrapper;
     }
 
+    public static JPanel createPhotoPanel(String imagePath) {
+        // Load image
+        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(FinalPageUI.class.getResource(imagePath)));
+
+        // Create and configure JLabel for the image
+        JLabel imageLabel = new JLabel(new ImageIcon(originalIcon.getImage()));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Wrap the image in a JPanel with fixed dimensions
+        JPanel imagePanel = new JPanel(new BorderLayout());
+        imagePanel.add(imageLabel, BorderLayout.CENTER);
+        imagePanel.setBorder(null);
+        imagePanel.setBackground(BACKGROUND_COLOR);
+
+        return imagePanel;
+    }
 }

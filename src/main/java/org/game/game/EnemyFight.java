@@ -14,8 +14,8 @@ public class EnemyFight {
     private static final Scanner scanner = new Scanner(System.in);
     private static int choice;
     private int turn;
-    private boolean characterDead = false;
-    private boolean enemyDead = false;
+    private static boolean characterDead = false;
+    private static boolean enemyDead = false;
 
     /**
      * Choosing the first turn to be enemy`s turn
@@ -94,7 +94,7 @@ public class EnemyFight {
         // handle the player`s choice
         switch (choice) {
             case 1:
-                normalAttack(character, enemy);
+                normalAttack(character, enemy, turn);
                 break;
             case 2:
                 useAbilityPlayer(character, enemy);
@@ -126,7 +126,7 @@ public class EnemyFight {
 
         switch (choice) {
             case 1:
-                normalAttack(character, enemy);
+                normalAttack(character, enemy, turn);
                 break;
             case 2:
                 useAbilityEnemy(character, enemy);
@@ -146,13 +146,11 @@ public class EnemyFight {
      * @param character the player`s character
      * @param enemy the generated enemy
      */
-    private void normalAttack(Character character, Enemy enemy) {
+    public static void normalAttack(Character character, Enemy enemy, int turn) {
         if (turn == 2) {
             enemy.setHealth(enemy.getHealth() - character.getDamage());
-            turn = 1;
         } else {
             character.setHealth(character.getHealth() - enemy.dealDamage());
-            turn = 2;
         }
 
         if (character.getHealth() <= 0) {
