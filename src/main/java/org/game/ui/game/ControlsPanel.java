@@ -15,7 +15,7 @@ public class ControlsPanel extends JPanel {
     private final JButton southButton;
     private final JButton eastButton;
 
-    public ControlsPanel(Game game, Frame frame, JPanel panel, CardLayout cardLayout) {
+    public ControlsPanel(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
         setBackground(BACKGROUND_COLOR);
         setLayout(new GridLayout(5, 1, 10, 10));
 
@@ -36,36 +36,45 @@ public class ControlsPanel extends JPanel {
         // Add Action Listeners
         northButton.addActionListener(e -> {
             game.getMap().goNorth();
-            if(game.handleCellEventUI()) {
-                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
-            }
+            handleCellEventUI(game, frame, panel, cardLayout);
             GameUI.updateUI();
         });
         westButton.addActionListener(e -> {
             game.getMap().goWest();
-            if(game.handleCellEventUI()) {
-                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
-            }
+            handleCellEventUI(game, frame, panel, cardLayout);
             GameUI.updateUI();
         });
         southButton.addActionListener(e -> {
             game.getMap().goSouth();
-            if(game.handleCellEventUI()) {
-                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
-            }
+            handleCellEventUI(game, frame, panel, cardLayout);
             GameUI.updateUI();
         });
         eastButton.addActionListener(e -> {
             game.getMap().goEast();
-            if(game.handleCellEventUI()) {
-                generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
-            }
+            handleCellEventUI(game, frame, panel, cardLayout);
             GameUI.updateUI();
         });
         chooseCharacterButton.addActionListener(e -> chooseAnotherCharacter(frame, panel, cardLayout));
 
         // Initial visibility check
         updateControls(game);
+    }
+
+    private void handleCellEventUI(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
+        if(game.handleCellEventUI() == 1) {
+            generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+        } else if (game.handleCellEventUI() == 2) {
+            generateEnemyFight(game, panel, cardLayout, frame);
+        }
+    }
+
+    private void generateEnemyFight(Game game, JPanel panel, CardLayout cardLayout, JFrame frame) {
+        JPanel fightPanel = new JPanel();
+        FightUI.setupFight(game, fightPanel, cardLayout, frame);
+
+        // Show the "Fighth" panel
+        panel.getParent().add(fightPanel, "Fight");
+        cardLayout.show(panel.getParent(), "Fight");
     }
 
     private void generateFinalPage(Character character, JPanel panel, CardLayout cardLayout, Game game) {

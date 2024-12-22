@@ -25,7 +25,12 @@ public class Account {
 
     public Account(String email, String password, List<String> favoriteGames, String name,
                    String country, ArrayList<Character> characters, int gamesPlayed) {
-        this.info = new Information(new Credentials(email, password), favoriteGames, name, country);
+        this.info = new Information.Builder()
+                .setCredentials(new Credentials(email, password))
+                .setName(name)
+                .setCountry(country)
+                .setFavoriteGames(favoriteGames)
+                .build();
         this.characters = characters;
         this.gamesPlayed = gamesPlayed;
     }
@@ -75,6 +80,38 @@ public class Account {
         public void setFavoriteGames(List<String> favoriteGames) {
             this.favoriteGames = new ArrayList<>(favoriteGames);
             Collections.sort(this.favoriteGames);
+        }
+
+        public static class Builder {
+            private Credentials credentials;
+            private String name;
+            private String country;
+            private List<String> favoriteGames = new ArrayList<>();
+
+            public Builder setCredentials(Credentials credentials) {
+                this.credentials = credentials;
+                return this;
+            }
+
+            public Builder setName(String name) {
+                this.name = name;
+                return this;
+            }
+
+            public Builder setCountry(String country) {
+                this.country = country;
+                return this;
+            }
+
+            public Builder setFavoriteGames(List<String> favoriteGames) {
+                this.favoriteGames = new ArrayList<>(favoriteGames);
+                Collections.sort(this.favoriteGames); // Sortare automată
+                return this;
+            }
+
+            public Information build() {
+                return new Information(credentials, favoriteGames, name, country);
+            }
         }
     }
 }

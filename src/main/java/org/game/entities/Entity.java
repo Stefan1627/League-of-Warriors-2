@@ -2,16 +2,13 @@ package org.game.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.game.spells.Earth;
-import org.game.spells.Fire;
-import org.game.spells.Ice;
-import org.game.spells.Spell;
+import org.game.spells.*;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 @Getter @Setter
-public abstract class Entity implements Battle {
+public abstract class Entity implements Battle, Element<Entity> {
     public static final int MAX_HEALTH = 100;
     public static final int MAX_MANA = 100;
     private ArrayList<Spell> spells;
@@ -26,6 +23,11 @@ public abstract class Entity implements Battle {
         spells = new ArrayList<>();
         health = MAX_HEALTH;
         mana = MAX_MANA;
+    }
+
+    @Override
+    public void accept(Visitor<Entity> visitor) {
+        visitor.visit(this);
     }
 
     public void regenerateHealth(int health) {
@@ -101,35 +103,5 @@ public abstract class Entity implements Battle {
             };
             spells.add(spell);
         }
-    }
-
-    /**
-     * Method useAbility
-     * Verifying if the enemy is imune to the spell, then applying the spell on him
-     * @param spell the chosen spell to be used
-     * @param enemy the entity on which the spell will be used
-     */
-    public void useAbility(Spell spell, Entity enemy) {
-        System.out.println("Used Ability: " + spell);
-
-        if ((spell.getClass() == Fire.class &&
-                (enemy.isFireProof() || enemy.getClass() == Warrior.class))
-                || (spell.getClass() == Ice.class &&
-                (enemy.isIceProof() || enemy.getClass() == Mage.class))
-                || (spell.getClass() == Earth.class &&
-                (enemy.isEarthProof() || enemy.getClass() == Rogue.class))) {
-
-            if (enemy.isFireProof() || enemy.isIceProof() || enemy.isEarthProof()) {
-                System.out.println("Oops... Your enemy is " +
-                        (spell.getClass() == Fire.class ? "fireproof" :
-                                spell.getClass() == Ice.class ? "iceproof" : "earthproof"));
-            } else {
-                System.out.println("Oops... Your enemy got scammed");
-            }
-            return;
-        }
-
-        enemy.receiveDamage(spell.getDamage());
-
     }
 }

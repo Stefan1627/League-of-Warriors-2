@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 @Getter @Setter
 public class Game {
+    private static Game game;
     private static final int MIN_NUM_OF_CELLS = 8;
     private static final int MAX_MAP_SIZE = 10;
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -30,15 +31,29 @@ public class Game {
     private boolean gameOver;
     private boolean resetGame;
 
-    public Game() {
+    private Game() {
         resetGame = false;
         gameOver = false;
     }
 
-    public Game(final ArrayList<Account> accounts) {
+    private Game(final ArrayList<Account> accounts) {
         resetGame = false;
         gameOver = false;
         this.accounts = accounts;
+    }
+
+    public static Game createGame() {
+        if (game == null) {
+            game = new Game();
+        }
+        return game;
+    }
+
+    public static Game createGame(final ArrayList<Account> accounts) {
+        if (game == null) {
+            game = new Game(accounts);
+        }
+        return game;
     }
 
     /**
@@ -108,6 +123,7 @@ public class Game {
 
         // if the program reaches this point that means that the player`s
         // character died and the player should choose again a character to play with
+        System.out.println("Game Over----------------------------------------------");
         resetGame = true;
         gameOver = false;
         run(accounts, comingFromTest);
@@ -359,7 +375,7 @@ public class Game {
         }
     }
 
-    public boolean handleCellEventUI() {
+    public int handleCellEventUI() {
         switch (map.getOldType()) {
             case CallEntityType.PORTAL -> {
                 System.out.println("Going through portal");
@@ -367,16 +383,19 @@ public class Game {
                 gameLvl++;
                 currAccount.setGamesPlayed(currAccount.getGamesPlayed() + 1);
                 currCharacter.evolve();
-                return true;
+                return 1;
             }
-            case CallEntityType.ENEMY -> handleEnemyMeeting();
+            case CallEntityType.ENEMY -> {
+                handleEnemyMeeting();
+                return 2;
+            }
             case CallEntityType.SANCTUARY -> {
                 System.out.println("Going through sanctuary, your mana and health regenerated");
                 currCharacter.regenerateMana();
                 currCharacter.setHealth(Entity.MAX_HEALTH);
             }
         }
-        return false;
+        return 0;
     }
 
     /**

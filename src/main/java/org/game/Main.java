@@ -26,12 +26,12 @@ public class Main {
         int choice = scanner.nextInt();
         switch (choice) {
             case 1 -> {
-                Game game = new Game();
+                Game game = Game.createGame();
                 game.run(inputData.getAccounts(), false);
                 break;
             }
             case 2 -> {
-                Game game = new Game(inputData.getAccounts());
+                Game game = Game.createGame(inputData.getAccounts());
                 LoWUI loWUI = new LoWUI();
                 loWUI.startApplication(game);
                 break;

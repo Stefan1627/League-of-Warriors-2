@@ -49,7 +49,7 @@ public class Test {
 
         Input inputData = objectMapper.readValue(new File(filePath1), Input.class);
 
-        Game game = new Game();
+        Game game = Game.createGame();
 
         game.run(inputData.getAccounts(), true);
     }

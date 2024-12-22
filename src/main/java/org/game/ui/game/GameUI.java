@@ -22,7 +22,7 @@ public class GameUI {
 
     private static JPanel statsPanel;
 
-    public static void setupGameUI(JPanel panel, Game game, Frame frame, CardLayout cardLayout) {
+    public static void setupGameUI(JPanel panel, Game game, JFrame frame, CardLayout cardLayout) {
         currentGame = game;
         panel.setLayout(new BorderLayout());
 
@@ -43,7 +43,7 @@ public class GameUI {
         panel.add(splitPane, BorderLayout.CENTER);
     }
 
-    private static JPanel createLeftPanel(Game game, Frame frame, JPanel panel, CardLayout cardLayout) {
+    private static JPanel createLeftPanel(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setBackground(new Color(50, 50, 50));
 

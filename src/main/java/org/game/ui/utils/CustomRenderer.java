@@ -27,7 +27,8 @@ public class CustomRenderer<T> extends JPanel implements ListCellRenderer<T> {
         // Customize the rendering for the specific type
         if (value instanceof org.game.account.Account account) {
             titleLabel.setText(account.getInfo().getFirst());
-            subtitleLabel.setText(account.getInfo().get(1));
+            subtitleLabel.setText(account.getInfo().get(1) + " (games played: "
+                    + account.getInfo().getLast() + ")");
         } else if (value instanceof org.game.entities.Character character) {
             titleLabel.setText(character.getName());
             subtitleLabel.setText("Level: " + character.getCurrLvl());
