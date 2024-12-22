@@ -99,8 +99,8 @@ public class LoWUI extends JFrame {
         contentPanel.add(button2, gbc);
 
         // Add action listeners
-        button.addActionListener(e -> cardLayout.show(mainPanel, "EnterCredentials"));
-        button2.addActionListener(e -> cardLayout.show(mainPanel, "ChooseAcc"));
+        button.addActionListener(_ -> cardLayout.show(mainPanel, "EnterCredentials"));
+        button2.addActionListener(_ -> cardLayout.show(mainPanel, "ChooseAcc"));
     }
 
     private JPanel createEnterCredentials(Game game, CardLayout cardLayout, JFrame frame) {

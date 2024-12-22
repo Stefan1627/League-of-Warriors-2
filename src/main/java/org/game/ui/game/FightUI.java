@@ -23,7 +23,7 @@ public class FightUI {
     private static Enemy enemy;
     private static JPanel statsPanelEnemy;
 
-    public static void setupFight(Game game, JPanel panel, CardLayout cardLayout, JFrame frame) {
+    public static void setupFight(Game game, JPanel panel, CardLayout cardLayout) {
         panel.setLayout(new BorderLayout());
         panel.setBackground(BACKGROUND_COLOR);
 

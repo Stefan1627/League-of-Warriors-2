@@ -2,11 +2,7 @@ package org.game.ui.login;
 
 import org.game.entities.Character;
 import org.game.game.Game;
-import org.game.ui.LoWUI;
 import org.game.ui.game.ControlsInfo;
-import org.game.ui.game.FinalPageUI;
-import org.game.ui.game.GameUI;
-import org.game.ui.game.SpellsUI;
 import org.game.ui.utils.CustomRenderer;
 import org.game.ui.utils.UIUtils;
 

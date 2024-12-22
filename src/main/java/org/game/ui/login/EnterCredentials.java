@@ -27,7 +27,7 @@ public class EnterCredentials {
         JPasswordField passwordField = UIUtils.createPasswordField(20, Color.BLACK);
 
         JButton loginButton = UIUtils.createButton("Login", Color.BLACK, new Font("Arial", Font.BOLD, 14));
-        loginButton.addActionListener(e -> handleLogin(panel, game, cardLayout, emailField,
+        loginButton.addActionListener(_ -> handleLogin(panel, game, cardLayout, emailField,
                                                                     passwordField, frame));
 
         // Add components to panel

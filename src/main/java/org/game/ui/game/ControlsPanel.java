@@ -34,47 +34,47 @@ public class ControlsPanel extends JPanel {
         add(chooseCharacterButton);
 
         // Add Action Listeners
-        northButton.addActionListener(e -> {
+        northButton.addActionListener(_ -> {
             game.getMap().goNorth();
-            handleCellEventUI(game, frame, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout);
             GameUI.updateUI();
         });
-        westButton.addActionListener(e -> {
+        westButton.addActionListener(_ -> {
             game.getMap().goWest();
-            handleCellEventUI(game, frame, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout);
             GameUI.updateUI();
         });
-        southButton.addActionListener(e -> {
+        southButton.addActionListener(_ -> {
             game.getMap().goSouth();
-            handleCellEventUI(game, frame, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout);
             GameUI.updateUI();
         });
-        eastButton.addActionListener(e -> {
+        eastButton.addActionListener(_ -> {
             game.getMap().goEast();
-            handleCellEventUI(game, frame, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout);
             GameUI.updateUI();
         });
-        chooseCharacterButton.addActionListener(e -> chooseAnotherCharacter(frame, panel, cardLayout));
+        chooseCharacterButton.addActionListener(_ -> chooseAnotherCharacter(frame, panel, cardLayout));
 
         // Initial visibility check
         updateControls(game);
     }
 
-    private void handleCellEventUI(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
+    private void handleCellEventUI(Game game, JPanel panel, CardLayout cardLayout) {
         int res = game.handleCellEventUI();
 
         if(res == 1) {
             generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
         } else if (res == 2) {
-            generateEnemyFight(game, panel, cardLayout, frame);
+            generateEnemyFight(game, panel, cardLayout);
         }
     }
 
-    private void generateEnemyFight(Game game, JPanel panel, CardLayout cardLayout, JFrame frame) {
+    private void generateEnemyFight(Game game, JPanel panel, CardLayout cardLayout) {
         JPanel fightPanel = new JPanel();
-        FightUI.setupFight(game, fightPanel, cardLayout, frame);
+        FightUI.setupFight(game, fightPanel, cardLayout);
 
-        // Show the "Fighth" panel
+        // Show the "Fight" panel
         panel.getParent().add(fightPanel, "Fight");
         cardLayout.show(panel.getParent(), "Fight");
     }

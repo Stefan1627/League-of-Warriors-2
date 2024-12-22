@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Random;
-
 @Getter @Setter
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

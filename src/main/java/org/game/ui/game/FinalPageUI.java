@@ -5,7 +5,6 @@ import org.game.game.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 import static org.game.ui.utils.UIUtils.*;
 
@@ -37,9 +36,9 @@ public class FinalPageUI {
                 new Font("Arial", Font.BOLD, 30));
 
         // Add actions to buttons
-        button1.addActionListener(e -> System.exit(0));
-        button2.addActionListener(e -> cardLayout.show(mainPanel.getParent(), "ChooseCharacter"));
-        button3.addActionListener(e -> {
+        button1.addActionListener(_ -> System.exit(0));
+        button2.addActionListener(_ -> cardLayout.show(mainPanel.getParent(), "ChooseCharacter"));
+        button3.addActionListener(_ -> {
             game.generateMapUI();
             GameUI.updateUI();
             cardLayout.show(mainPanel.getParent(), "Game");
