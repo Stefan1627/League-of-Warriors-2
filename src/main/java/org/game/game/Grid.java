@@ -11,7 +11,6 @@ import java.util.Random;
 
 @Getter @Setter
 public class Grid extends ArrayList<ArrayList<Cell>> {
-    private static Grid map;
     private Character currentCharacter;
     private static int gridLength;
     private static int gridWidth;
@@ -39,22 +38,22 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public static Grid generateMap(int length, int width) {
         Random rand = new Random();
 
-        map = new Grid(length, width);
+        Grid map = new Grid(length, width);
 
         for (int i = 0; i < 2; i++) {
-            setCellType(CallEntityType.SANCTUARY, rand);
+            setCellType(map, CallEntityType.SANCTUARY, rand);
         }
 
         for (int i = 0; i < 4; i++) {
-            setCellType(CallEntityType.ENEMY, rand);
+            setCellType(map, CallEntityType.ENEMY, rand);
         }
 
-        setCellType(CallEntityType.PORTAL, rand);
+        setCellType(map, CallEntityType.PORTAL, rand);
 
         int remainingCells = gridLength * gridWidth - 7;
         int randomCell = rand.nextInt(remainingCells);
         for (int i = 0; i < randomCell; i++) {
-            setCellType(getRandomCallEntityType(), rand);
+            setCellType(map, getRandomCallEntityType(), rand);
         }
 
         return map;
@@ -81,7 +80,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
      * @param type the type to be added
      * @param rand the random object for generation the coordinates
      */
-    private static void setCellType(CallEntityType type, Random rand) {
+    private static void setCellType(Grid map, CallEntityType type, Random rand) {
         while(true) {
             int row = rand.nextInt(gridLength);
             int col = rand.nextInt(gridWidth);
@@ -101,7 +100,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
      * @param row the row of the chosen one
      * @param col the col of the chosen one
      */
-    public void setCellType(CallEntityType type, int row, int col) {
+    public void setCellType(Grid map, CallEntityType type, int row, int col) {
         Cell cell = map.get(row).get(col);
         cell.setType(type);
 
@@ -135,7 +134,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
      */
     private void putPlayerOnCell() {
         oldType = get(currentCell.getRow()).get(currentCell.getCol()).getType();
-        setCellType(CallEntityType.PLAYER, currentCell.getRow(), currentCell.getCol());
+        setCellType(this, CallEntityType.PLAYER, currentCell.getRow(), currentCell.getCol());
     }
 
     /**
@@ -145,7 +144,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public void goNorth() {
         System.out.println("Went North");
 
-        setCellType(CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
+        setCellType(this, CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
         currentCell.setRow(currentCell.getRow() - 1);
 
         putPlayerOnCell();
@@ -158,7 +157,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public void goSouth() {
         System.out.println("Went South");
 
-        setCellType(CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
+        setCellType(this, CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
         currentCell.setRow(currentCell.getRow() + 1);
 
         putPlayerOnCell();
@@ -171,7 +170,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public void goEast() {
         System.out.println("Went East");
 
-        setCellType(CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
+        setCellType(this, CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
         currentCell.setCol(currentCell.getCol() + 1);
 
         putPlayerOnCell();
@@ -184,7 +183,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public void goWest() {
         System.out.println("Went West");
 
-        setCellType(CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
+        setCellType(this, CallEntityType.VOID, currentCell.getRow(), currentCell.getCol());
         currentCell.setCol(currentCell.getCol() - 1);
 
         putPlayerOnCell();

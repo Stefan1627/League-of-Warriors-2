@@ -56,7 +56,7 @@ public class SpellPanel extends JPanel {
         // SplitPane for Upper (Image + Description) and Lower (Button)
         JSplitPane mainSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperSplit, selectButton);
         mainSplit.setDividerSize(2);
-        mainSplit.setDividerLocation(400);
+        mainSplit.setDividerLocation(300);
         mainSplit.setResizeWeight(0.8);
         mainSplit.setEnabled(false);
 

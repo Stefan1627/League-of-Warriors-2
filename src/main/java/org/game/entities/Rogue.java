@@ -5,6 +5,10 @@ import java.util.Random;
 public class Rogue extends Character {
     private final Random random = new Random();
 
+    public Rogue(String name, int currExp, int currLvl) {
+        super(name, currExp, currLvl);
+    }
+
     /**
      * Method evolve
      * Incrementing the attributes of the character after incrementing the level

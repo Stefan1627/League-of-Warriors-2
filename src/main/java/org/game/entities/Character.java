@@ -1,29 +1,14 @@
 package org.game.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        property = "profession"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Warrior.class, name = "Warrior"),
-        @JsonSubTypes.Type(value = Mage.class, name = "Mage"),
-        @JsonSubTypes.Type(value = Rogue.class, name = "Rogue")
-})
+@JsonDeserialize(using = CharacterDeserializer.class)
 public abstract class Character extends Entity{
-    @JsonProperty("name")
     private String name;
-
-    @JsonProperty("experience")
     private int currExp;
-
-    @JsonProperty("level")
     private int currLvl;
 
     private int strength;
@@ -31,6 +16,12 @@ public abstract class Character extends Entity{
     private int charisma;
 
     private int kills = 0;
+
+    public Character(String name, int currExp, int currLvl) {
+        this.name = name;
+        this.currExp = currExp;
+        this.currLvl = currLvl;
+    }
 
     @Override
     public void receiveDamage(int dmg) {

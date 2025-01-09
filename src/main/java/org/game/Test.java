@@ -12,36 +12,36 @@ public class Test {
     private static final String filePath1 = "accounts.json";
 
     public static void setDefaultMap(Game game) {
-        game.getMap().setCellType(CallEntityType.PLAYER, 0, 0);
+        game.getMap().setCellType(game.getMap(), CallEntityType.PLAYER, 0, 0);
         game.getMap().setCurrentCell(game.getMap().getFirst().getFirst());
-        game.getMap().setCellType(CallEntityType.VOID, 1, 0);
-        game.getMap().setCellType(CallEntityType.SANCTUARY, 2, 0);
-        game.getMap().setCellType(CallEntityType.VOID, 3, 0);
-        game.getMap().setCellType(CallEntityType.VOID, 4, 0);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 1, 0);
+        game.getMap().setCellType(game.getMap(), CallEntityType.SANCTUARY, 2, 0);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 3, 0);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 4, 0);
 
-        game.getMap().setCellType(CallEntityType.VOID, 0, 1);
-        game.getMap().setCellType(CallEntityType.VOID, 1, 1);
-        game.getMap().setCellType(CallEntityType.VOID, 2, 1);
-        game.getMap().setCellType(CallEntityType.VOID, 3, 1);
-        game.getMap().setCellType(CallEntityType.VOID, 4, 1);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 0, 1);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 1, 1);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 2, 1);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 3, 1);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 4, 1);
 
-        game.getMap().setCellType(CallEntityType.VOID, 0, 2);
-        game.getMap().setCellType(CallEntityType.VOID, 1, 2);
-        game.getMap().setCellType(CallEntityType.VOID, 2, 2);
-        game.getMap().setCellType(CallEntityType.VOID, 3, 2);
-        game.getMap().setCellType(CallEntityType.VOID, 4, 2);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 0, 2);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 1, 2);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 2, 2);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 3, 2);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 4, 2);
 
-        game.getMap().setCellType(CallEntityType.SANCTUARY, 0, 3);
-        game.getMap().setCellType(CallEntityType.SANCTUARY, 1, 3);
-        game.getMap().setCellType(CallEntityType.VOID, 2, 3);
-        game.getMap().setCellType(CallEntityType.VOID, 3, 3);
-        game.getMap().setCellType(CallEntityType.SANCTUARY, 4, 3);
+        game.getMap().setCellType(game.getMap(), CallEntityType.SANCTUARY, 0, 3);
+        game.getMap().setCellType(game.getMap(), CallEntityType.SANCTUARY, 1, 3);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 2, 3);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 3, 3);
+        game.getMap().setCellType(game.getMap(), CallEntityType.SANCTUARY, 4, 3);
 
-        game.getMap().setCellType(CallEntityType.VOID, 0, 4);
-        game.getMap().setCellType(CallEntityType.VOID, 1, 4);
-        game.getMap().setCellType(CallEntityType.VOID, 2, 4);
-        game.getMap().setCellType(CallEntityType.ENEMY, 3, 4);
-        game.getMap().setCellType(CallEntityType.PORTAL, 4, 4);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 0, 4);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 1, 4);
+        game.getMap().setCellType(game.getMap(), CallEntityType.VOID, 2, 4);
+        game.getMap().setCellType(game.getMap(), CallEntityType.ENEMY, 3, 4);
+        game.getMap().setCellType(game.getMap(), CallEntityType.PORTAL, 4, 4);
     }
 
     public static void main(String[] args) throws IOException {
