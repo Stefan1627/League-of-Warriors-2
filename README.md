@@ -1,10 +1,3 @@
-<<<<<<< Updated upstream
-TODOS
-
-de facut variabila globala pentru max power si strenght
-
-DE INTREBAT NEAPARAT DESPRE FACTORY DESIGN
-=======
 # Proiect Java: Joc de Aventură RPG
 
 ## Descriere generală

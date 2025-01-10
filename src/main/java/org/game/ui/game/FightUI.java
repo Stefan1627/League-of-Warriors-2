@@ -26,7 +26,8 @@ public class FightUI {
 
     private static Game game;
 
-    public static void setupFight(Game game, JPanel panel, CardLayout cardLayout) {
+    public static void setupFight(Game game, JPanel panel,
+                                  CardLayout cardLayout, boolean comingFromTest) {
         FightUI.game = game;
         panel.setLayout(new BorderLayout());
         panel.setBackground(BACKGROUND_COLOR);
@@ -43,7 +44,7 @@ public class FightUI {
 
         JPanel characterImagePanel = createPhotoPanel("/heroes/" + character.getImagePath());
 
-        JSplitPane newBottomComponent = getJSplitPane(statsPanelCharacter, panel, cardLayout);
+        JSplitPane newBottomComponent = getJSplitPane(statsPanelCharacter, panel, cardLayout, comingFromTest);
 
         JSplitPane characterSide = new JSplitPane(JSplitPane.VERTICAL_SPLIT, characterImagePanel, newBottomComponent);
         characterSide.setDividerLocation((int) (screenSize.height * 0.75));
@@ -97,7 +98,8 @@ public class FightUI {
         return panel;
     }
 
-    private static JSplitPane getJSplitPane(JPanel statsLeftPanel, JPanel panel, CardLayout cardLayout) {
+    private static JSplitPane getJSplitPane(JPanel statsLeftPanel, JPanel panel,
+                                            CardLayout cardLayout, boolean comingFromTest) {
         JPanel statsRightPanel = new JPanel(new GridLayout(2, 1, 5, 5));
         statsRightPanel.setBackground(BACKGROUND_COLOR);
 
@@ -107,13 +109,13 @@ public class FightUI {
                 new Font("Arial", Font.BOLD, 20));
 
         button1.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(panel, "You attacked!");
             int health = enemy.getHealth();
 
             EnemyFight.normalAttack(character, enemy, 2);
 
             if (health != enemy.getHealth()) {
-                JOptionPane.showMessageDialog(panel, "Attack successful, enemy received " + (health - enemy.getHealth())
+                JOptionPane.showMessageDialog(panel, "Attack successful, enemy received "
+                        + (health - enemy.getHealth())
                         + " damage!");
             } else {
                 JOptionPane.showMessageDialog(panel, "Oh no, you missed! Damage dealt: 0");
@@ -132,7 +134,7 @@ public class FightUI {
             JOptionPane.showMessageDialog(panel, "It was your enemy's turn. Damage received: " + (health - character.getHealth()));
 
             if (character.getHealth() <= 0) {
-                enemyWon(panel, cardLayout, character);
+                enemyWon(panel, cardLayout, character, comingFromTest);
                 return;
             }
             updateUI();
@@ -149,7 +151,7 @@ public class FightUI {
                             "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 JPanel spellPanel = new JPanel();
-                SpellsUI.setupSpellsUI(spellPanel, character, enemy, cardLayout);
+                SpellsUI.setupSpellsUI(spellPanel, character, enemy, cardLayout, comingFromTest);
 
                 panel.getParent().add(spellPanel, "Spells");
                 cardLayout.show(panel.getParent(), "Spells");
@@ -208,9 +210,11 @@ public class FightUI {
         cardLayout.show(panel.getParent(), "Game");
     }
 
-    public static void enemyWon(JPanel panel, CardLayout cardLayout, Character character) {
+    public static void enemyWon(JPanel panel, CardLayout cardLayout,
+                                Character character, boolean comingFromTest) {
         JPanel finalPanel = new JPanel();
-        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(), cardLayout, panel, game);
+        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(),
+                                    cardLayout, panel, game, comingFromTest);
 
         // Show the "Final" panel
         panel.getParent().add(finalPanel, "Final");

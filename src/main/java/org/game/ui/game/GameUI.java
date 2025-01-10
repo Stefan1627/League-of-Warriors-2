@@ -22,12 +22,13 @@ public class GameUI {
 
     private static JPanel statsPanel;
 
-    public static void setupGameUI(JPanel panel, Game game, JFrame frame, CardLayout cardLayout) {
+    public static void setupGameUI(JPanel panel, Game game, JFrame frame,
+                                   CardLayout cardLayout, boolean comingFromTest) {
         currentGame = game;
         panel.setLayout(new BorderLayout());
 
         // Create left panel for text (includes ControlsPanel)
-        JPanel leftPanel = createLeftPanel(game, frame, panel, cardLayout);
+        JPanel leftPanel = createLeftPanel(game, frame, panel, cardLayout, comingFromTest);
 
         // Create right panel for grid of cells
         gridPanel = new JPanel();
@@ -43,12 +44,13 @@ public class GameUI {
         panel.add(splitPane, BorderLayout.CENTER);
     }
 
-    private static JPanel createLeftPanel(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
+    private static JPanel createLeftPanel(Game game, JFrame frame, JPanel panel,
+                                          CardLayout cardLayout, boolean comingFromTest) {
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setBackground(new Color(50, 50, 50));
 
         // Controls Panel
-        controlsPanel = new ControlsPanel(game, frame, panel, cardLayout);
+        controlsPanel = new ControlsPanel(game, frame, panel, cardLayout, comingFromTest);
         controlsPanel.setBorder(BorderFactory.createEmptyBorder());
 
         // Bottom Stats Panel

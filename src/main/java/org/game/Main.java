@@ -23,7 +23,18 @@ public class Main {
         System.out.println("2. GUI version");
         System.out.println("3. Exit");
 
-        int choice = scanner.nextInt();
+        int choice;
+        while (true) {
+            try {
+                choice = Integer.parseInt(scanner.next());
+                if (choice == 1 || choice == 2 || choice == 3) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid number");
+            }
+        }
+
         switch (choice) {
             case 1 -> {
                 Game game = Game.createGame();
@@ -32,7 +43,7 @@ public class Main {
             case 2 -> {
                 Game game = Game.createGame(inputData.getAccounts());
                 LoWUI loWUI = new LoWUI();
-                loWUI.startApplication(game);
+                loWUI.startApplication(game, false);
             }
             case 3 -> System.exit(0);
         }

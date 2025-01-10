@@ -14,9 +14,9 @@ public class Rogue extends Character {
      * Incrementing the attributes of the character after incrementing the level
      */
     public void evolve() {
-        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), 1000));
-        setDexterity(Math.min((getDexterity() + 5) * getCurrLvl(), 1000));
-        setCharisma(Math.min((getCharisma() + 1) * getCurrLvl(), 1000));
+        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), Entity.MAX_VALUE));
+        setDexterity(Math.min((getDexterity() + 5) * getCurrLvl(), Entity.MAX_VALUE));
+        setCharisma(Math.min((getCharisma() + 1) * getCurrLvl(), Entity.MAX_VALUE));
     }
 
     @Override

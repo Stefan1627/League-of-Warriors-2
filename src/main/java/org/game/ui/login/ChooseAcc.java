@@ -11,7 +11,9 @@ import java.awt.*;
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class ChooseAcc {
-    public static void setupChooseAcc(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
+    public static void setupChooseAcc(JPanel panel, Game game,
+                                      CardLayout cardLayout, JFrame frame,
+                                      boolean comingFromTest) {
         panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new BorderLayout());
 
@@ -31,7 +33,8 @@ public class ChooseAcc {
                     game.setCurrAccount(selectedAccount);
 
                     JPanel chooseCharacterPanel = new JPanel();
-                    ChooseCharacter.setupChooseCharacter(chooseCharacterPanel, game, cardLayout, frame);
+                    ChooseCharacter.setupChooseCharacter(chooseCharacterPanel, game, cardLayout,
+                                                        frame, comingFromTest);
 
                     panel.getParent().add(chooseCharacterPanel, "ChooseCharacter");
                     cardLayout.show(panel.getParent(), "ChooseCharacter");

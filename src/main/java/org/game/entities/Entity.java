@@ -11,6 +11,7 @@ import java.util.Random;
 public abstract class Entity implements Battle, Element<Entity> {
     public static final int MAX_HEALTH = 100;
     public static final int MAX_MANA = 100;
+    public static final int MAX_VALUE = 1000;
     private ArrayList<Spell> spells;
     private int health;
     private int mana;

@@ -13,7 +13,9 @@ import java.awt.event.KeyEvent;
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class ControlsInfo {
-    public static void setupControlsInfo(JPanel panel, Game game, JFrame frame, CardLayout cardLayout) {
+    public static void setupControlsInfo(JPanel panel, Game game,
+                                         JFrame frame, CardLayout cardLayout,
+                                         boolean comingFromTest) {
         panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new BorderLayout());
 
@@ -76,7 +78,7 @@ public class ControlsInfo {
 
                 // Define what happens when any key is pressed
                 JPanel gamePanel = new JPanel();
-                GameUI.setupGameUI(gamePanel, game, frame, cardLayout);
+                GameUI.setupGameUI(gamePanel, game, frame, cardLayout, comingFromTest);
 
                 LoWUI.setFullscreen(frame);
                 panel.getParent().add(gamePanel, "Game");

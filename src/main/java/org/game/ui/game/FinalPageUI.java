@@ -12,7 +12,8 @@ public class FinalPageUI {
 
     public static void setupFinalPageUI(Character character, JPanel panel,
                                         String photoPath, CardLayout cardLayout,
-                                        JPanel mainPanel, Game game) {
+                                        JPanel mainPanel, Game game,
+                                        boolean comingFromTest) {
 
         // Wrap the image in a JPanel with fixed dimensions
         JPanel imagePanel = createPhotoPanel(photoPath);
@@ -39,7 +40,7 @@ public class FinalPageUI {
         button1.addActionListener(_ -> System.exit(0));
         button2.addActionListener(_ -> cardLayout.show(mainPanel.getParent(), "ChooseCharacter"));
         button3.addActionListener(_ -> {
-            game.generateMapUI();
+            game.generateMapUI(comingFromTest);
             GameUI.updateUI();
             cardLayout.show(mainPanel.getParent(), "Game");
 

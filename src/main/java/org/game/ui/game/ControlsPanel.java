@@ -15,7 +15,8 @@ public class ControlsPanel extends JPanel {
     private final JButton southButton;
     private final JButton eastButton;
 
-    public ControlsPanel(Game game, JFrame frame, JPanel panel, CardLayout cardLayout) {
+    public ControlsPanel(Game game, JFrame frame, JPanel panel,
+                         CardLayout cardLayout, boolean comingFromTest) {
         setBackground(BACKGROUND_COLOR);
         setLayout(new GridLayout(5, 1, 10, 10));
 
@@ -36,22 +37,22 @@ public class ControlsPanel extends JPanel {
         // Add Action Listeners
         northButton.addActionListener(_ -> {
             game.getMap().goNorth();
-            handleCellEventUI(game, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout, comingFromTest);
             GameUI.updateUI();
         });
         westButton.addActionListener(_ -> {
             game.getMap().goWest();
-            handleCellEventUI(game, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout, comingFromTest);
             GameUI.updateUI();
         });
         southButton.addActionListener(_ -> {
             game.getMap().goSouth();
-            handleCellEventUI(game, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout, comingFromTest);
             GameUI.updateUI();
         });
         eastButton.addActionListener(_ -> {
             game.getMap().goEast();
-            handleCellEventUI(game, panel, cardLayout);
+            handleCellEventUI(game, panel, cardLayout, comingFromTest);
             GameUI.updateUI();
         });
         chooseCharacterButton.addActionListener(_ -> chooseAnotherCharacter(frame, panel, cardLayout));
@@ -60,30 +61,35 @@ public class ControlsPanel extends JPanel {
         updateControls(game);
     }
 
-    private void handleCellEventUI(Game game, JPanel panel, CardLayout cardLayout) {
+    private void handleCellEventUI(Game game, JPanel panel,
+                                   CardLayout cardLayout, boolean comingFromTest) {
         int res = game.handleCellEventUI();
 
         if(res == 1) {
-            generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game);
+            generateFinalPage(game.getCurrCharacter(), panel, cardLayout, game, comingFromTest);
         } else if (res == 2) {
-            generateEnemyFight(game, panel, cardLayout);
+            generateEnemyFight(game, panel, cardLayout, comingFromTest);
         }
     }
 
-    private void generateEnemyFight(Game game, JPanel panel, CardLayout cardLayout) {
+    private void generateEnemyFight(Game game, JPanel panel,
+                                    CardLayout cardLayout, boolean comingFromTest) {
         JPanel fightPanel = new JPanel();
-        FightUI.setupFight(game, fightPanel, cardLayout);
+        FightUI.setupFight(game, fightPanel, cardLayout, comingFromTest);
 
         // Show the "Fight" panel
         panel.getParent().add(fightPanel, "Fight");
         cardLayout.show(panel.getParent(), "Fight");
     }
 
-    private void generateFinalPage(Character character, JPanel panel, CardLayout cardLayout, Game game) {
+    private void generateFinalPage(Character character, JPanel panel,
+                                   CardLayout cardLayout, Game game,
+                                   boolean comingFromTest) {
         System.out.println("Going through portal...");
 
         JPanel finalPanel = new JPanel();
-        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(), cardLayout, panel, game);
+        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(),
+                                    cardLayout, panel, game, comingFromTest);
 
         // Show the "Final" panel
         panel.getParent().add(finalPanel, "Final");

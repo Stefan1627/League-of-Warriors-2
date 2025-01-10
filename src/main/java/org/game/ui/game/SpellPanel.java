@@ -13,7 +13,7 @@ import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class SpellPanel extends JPanel {
     public SpellPanel(Spell spell, JPanel panel, CardLayout cardLayout,
-                      Character character, Enemy enemy) {
+                      Character character, Enemy enemy, boolean comingFromTest) {
         setPreferredSize(new Dimension(200, 200));
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
@@ -36,13 +36,12 @@ public class SpellPanel extends JPanel {
         selectButton.setForeground(Color.BLACK);
         selectButton.setFocusPainted(false);
         selectButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(this,
-                    spell.getClass().getSimpleName() + " selected!");
-
             int health = enemy.getHealth();
+
             character.getSpells().remove(spell);
             character.setMana(character.getMana() - spell.getMana());
-            spell.visit(enemy);
+
+            enemy.accept(spell);
 
             cardLayout.show(panel.getParent(), "Fight");
             JOptionPane.showMessageDialog(panel, "Enemy received " + (health - enemy.getHealth()) + " damage!");
@@ -57,7 +56,7 @@ public class SpellPanel extends JPanel {
             JOptionPane.showMessageDialog(panel, "It was your enemy's turn. Damage received: " + (health - character.getHealth()));
 
             if (character.getHealth() <= 0) {
-                FightUI.enemyWon(panel, cardLayout, character);
+                FightUI.enemyWon(panel, cardLayout, character, comingFromTest);
             }
             FightUI.updateUI();
         });

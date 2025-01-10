@@ -193,7 +193,7 @@ public class EnemyFight {
         Spell currSpell = character.getSpells().remove(choice);
         character.setMana(character.getMana() - currSpell.getMana());
 
-        currSpell.visit(enemy);
+        enemy.accept(currSpell);
 
         if (enemy.getHealth() <= 0) {
             enemyDead = true;
@@ -214,7 +214,7 @@ public class EnemyFight {
         Spell currSpell = enemy.getSpells().remove(choice);
         enemy.setMana(enemy.getMana() - currSpell.getMana());
 
-        currSpell.visit(character);
+        character.accept(currSpell);
 
         if (character.getHealth() <= 0) {
             characterDead = true;

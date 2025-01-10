@@ -13,7 +13,9 @@ import java.awt.*;
 import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 
 public class ChooseCharacter {
-    public static void setupChooseCharacter(JPanel panel, Game game, CardLayout cardLayout, JFrame frame) {
+    public static void setupChooseCharacter(JPanel panel, Game game,
+                                            CardLayout cardLayout, JFrame frame,
+                                            boolean comingFromTest) {
         // Set background color
         panel.setBackground(BACKGROUND_COLOR);
         panel.setLayout(new BorderLayout());
@@ -37,10 +39,10 @@ public class ChooseCharacter {
                     game.setCurrCharacter(selectedCharacter);
                     game.setCharacterAttributes();
                     game.getCurrCharacter().setImage();
-                    game.generateMapUI();
+                    game.generateMapUI(comingFromTest);
 
                     JPanel controlsInfoPanel = new JPanel();
-                    ControlsInfo.setupControlsInfo(controlsInfoPanel, game, frame, cardLayout);
+                    ControlsInfo.setupControlsInfo(controlsInfoPanel, game, frame, cardLayout, comingFromTest);
 
                     panel.getParent().add(controlsInfoPanel, "Controls");
                     cardLayout.show(panel.getParent(), "Controls");

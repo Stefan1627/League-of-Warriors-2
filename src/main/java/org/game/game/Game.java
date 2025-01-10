@@ -457,10 +457,20 @@ public class Game {
         };
     }
 
-    public void generateMapUI() {
-        generateLimits();
-        map = Grid.generateMap(length, width);
-        map.setCurrentCharacter(currCharacter);
-        map.selectStartingCell();
+    public void generateMapUI(boolean comingFromTest) {
+        if (!comingFromTest) {
+            generateLimits();
+            map = Grid.generateMap(length, width);
+            map.setCurrentCharacter(currCharacter);
+            map.selectStartingCell();
+        } else {
+            // if comingFromTest is true the limits are already set
+            length = 5;
+            width = 5;
+            map = Grid.generateMap(length, width);
+            map.setCurrentCharacter(currCharacter);
+            // setting up the test map configuration
+            Test.setDefaultMap(this);
+        }
     }
 }

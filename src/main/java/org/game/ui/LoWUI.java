@@ -11,14 +11,14 @@ import static org.game.ui.utils.UIUtils.BACKGROUND_COLOR;
 import static org.game.ui.utils.UIUtils.createButton;
 
 public class LoWUI extends JFrame {
-    public void startApplication(Game game) {
+    public void startApplication(Game game, boolean comingFromTest) {
         JFrame frame = createMainFrame();
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
         JPanel contentPanel = createStartPage(cardLayout, mainPanel);
-        JPanel enterCredentials = createEnterCredentials(game, cardLayout, frame);
-        JPanel chooseAcc = createChooseAcc(game, cardLayout, frame);
+        JPanel enterCredentials = createEnterCredentials(game, cardLayout, frame, comingFromTest);
+        JPanel chooseAcc = createChooseAcc(game, cardLayout, frame, comingFromTest);
 
         mainPanel.add(contentPanel, "StartPage");
         mainPanel.add(enterCredentials, "EnterCredentials");
@@ -103,15 +103,17 @@ public class LoWUI extends JFrame {
         button2.addActionListener(_ -> cardLayout.show(mainPanel, "ChooseAcc"));
     }
 
-    private JPanel createEnterCredentials(Game game, CardLayout cardLayout, JFrame frame) {
+    private JPanel createEnterCredentials(Game game, CardLayout cardLayout,
+                                          JFrame frame, boolean comingFromTest) {
         JPanel enterCredentials = new JPanel();
-        setupEnterCredentials(enterCredentials, game, cardLayout, frame);
+        setupEnterCredentials(enterCredentials, game, cardLayout, frame, comingFromTest);
         return enterCredentials;
     }
 
-    private JPanel createChooseAcc(Game game, CardLayout cardLayout, JFrame frame) {
+    private JPanel createChooseAcc(Game game, CardLayout cardLayout,
+                                   JFrame frame, boolean comingFromTest) {
         JPanel chooseAcc = new JPanel(new BorderLayout());
-        setupChooseAcc(chooseAcc, game, cardLayout, frame);
+        setupChooseAcc(chooseAcc, game, cardLayout, frame, comingFromTest);
         return chooseAcc;
     }
 
