@@ -11,6 +11,7 @@ import org.game.game.Game;
 import javax.swing.*;
 import java.awt.*;
 
+import static org.game.game.Game.RANDOM;
 import static org.game.ui.game.GameUI.createStatLabel;
 import static org.game.ui.utils.UIUtils.*;
 
@@ -23,7 +24,10 @@ public class FightUI {
     private static Enemy enemy;
     private static JPanel statsPanelEnemy;
 
+    private static Game game;
+
     public static void setupFight(Game game, JPanel panel, CardLayout cardLayout) {
+        FightUI.game = game;
         panel.setLayout(new BorderLayout());
         panel.setBackground(BACKGROUND_COLOR);
 
@@ -103,16 +107,53 @@ public class FightUI {
                 new Font("Arial", Font.BOLD, 20));
 
         button1.addActionListener(_ -> {
+            JOptionPane.showMessageDialog(panel, "You attacked!");
+            int health = enemy.getHealth();
+
             EnemyFight.normalAttack(character, enemy, 2);
+
+            if (health != enemy.getHealth()) {
+                JOptionPane.showMessageDialog(panel, "Attack successful, enemy received " + (health - enemy.getHealth())
+                        + " damage!");
+            } else {
+                JOptionPane.showMessageDialog(panel, "Oh no, you missed! Damage dealt: 0");
+            }
+
+            if (enemy.getHealth() <= 0) {
+                characterWon(panel, cardLayout, character);
+                JOptionPane.showMessageDialog(panel, "You won!");
+                return;
+            }
+            updateUI();
+
+            health = character.getHealth();
+            EnemyFight.attackEnemy(character, enemy);
+
+            JOptionPane.showMessageDialog(panel, "It was your enemy's turn. Damage received: " + (health - character.getHealth()));
+
+            if (character.getHealth() <= 0) {
+                enemyWon(panel, cardLayout, character);
+                return;
+            }
             updateUI();
         });
 
         button2.addActionListener(_ -> {
-            JPanel spellPanel = new JPanel();
-            SpellsUI.setupSpellsUI(spellPanel, character, enemy, cardLayout);
+            if (character.getSpells().isEmpty()) {
+                JOptionPane.showMessageDialog(panel, "You don't have any spells in this fight.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
 
-            panel.getParent().add(spellPanel, "Spells");
-            cardLayout.show(panel.getParent(), "Spells");
+            } else if (EnemyFight.notEnoughManaForAbilities(character)) {
+                JOptionPane.showMessageDialog(panel, "You don't have enough mana "
+                                + "for any spells in this fight.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JPanel spellPanel = new JPanel();
+                SpellsUI.setupSpellsUI(spellPanel, character, enemy, cardLayout);
+
+                panel.getParent().add(spellPanel, "Spells");
+                cardLayout.show(panel.getParent(), "Spells");
+            }
         });
 
         statsRightPanel.add(button1);
@@ -159,5 +200,20 @@ public class FightUI {
 
         statsPanelEnemy.revalidate();
         statsPanelEnemy.repaint();
+    }
+
+    public static void characterWon(JPanel panel, CardLayout cardLayout, Character character) {
+        character.wonFight(RANDOM.nextInt(40,101));
+        GameUI.updateUI();
+        cardLayout.show(panel.getParent(), "Game");
+    }
+
+    public static void enemyWon(JPanel panel, CardLayout cardLayout, Character character) {
+        JPanel finalPanel = new JPanel();
+        FinalPageUI.setupFinalPageUI(character, finalPanel, "/heroes/" + character.getImagePath(), cardLayout, panel, game);
+
+        // Show the "Final" panel
+        panel.getParent().add(finalPanel, "Final");
+        cardLayout.show(panel.getParent(), "Final");
     }
 }

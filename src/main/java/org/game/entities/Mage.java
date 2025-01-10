@@ -14,9 +14,9 @@ public class Mage extends Character {
      * Incrementing the attributes of the character after incrementing the level
      */
     public void evolve() {
-        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), Integer.MAX_VALUE));
-        setDexterity(Math.min((getDexterity() + 1) * getCurrLvl(), Integer.MAX_VALUE));
-        setCharisma(Math.min((getCharisma() + 5) * getCurrLvl(), Integer.MAX_VALUE));
+        setStrength(Math.min((getStrength() + 1) * getCurrLvl(), 1000));
+        setDexterity(Math.min((getDexterity() + 1) * getCurrLvl(), 1000));
+        setCharisma(Math.min((getCharisma() + 5) * getCurrLvl(), 1000));
     }
 
     @Override

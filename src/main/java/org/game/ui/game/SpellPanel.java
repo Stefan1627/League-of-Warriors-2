@@ -1,6 +1,7 @@
 package org.game.ui.game;
 
 import org.game.entities.Enemy;
+import org.game.game.EnemyFight;
 import org.game.spells.*;
 import org.game.entities.Character;
 
@@ -38,12 +39,27 @@ public class SpellPanel extends JPanel {
             JOptionPane.showMessageDialog(this,
                     spell.getClass().getSimpleName() + " selected!");
 
+            int health = enemy.getHealth();
             character.getSpells().remove(spell);
             character.setMana(character.getMana() - spell.getMana());
             spell.visit(enemy);
 
-            FightUI.updateUI();
             cardLayout.show(panel.getParent(), "Fight");
+            JOptionPane.showMessageDialog(panel, "Enemy received " + (health - enemy.getHealth()) + " damage!");
+
+            if (enemy.getHealth() <= 0) {
+                FightUI.characterWon(panel, cardLayout, character);
+            }
+            FightUI.updateUI();
+
+            health = character.getHealth();
+            EnemyFight.attackEnemy(character, enemy);
+            JOptionPane.showMessageDialog(panel, "It was your enemy's turn. Damage received: " + (health - character.getHealth()));
+
+            if (character.getHealth() <= 0) {
+                FightUI.enemyWon(panel, cardLayout, character);
+            }
+            FightUI.updateUI();
         });
 
         // SplitPane for Upper (Image) and Middle (Description)

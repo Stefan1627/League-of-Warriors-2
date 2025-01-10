@@ -13,7 +13,7 @@ public class EnemyFight {
     private static final Random rand = new Random();
     private static final Scanner scanner = new Scanner(System.in);
     private static int choice;
-    private int turn;
+    private static int turn;
     private static boolean characterDead = false;
     private static boolean enemyDead = false;
 
@@ -115,7 +115,7 @@ public class EnemyFight {
      * @param character the player`s character
      * @param enemy the generated enemy
      */
-    private void attackEnemy(Character character, Enemy enemy) {
+    public static void attackEnemy(Character character, Enemy enemy) {
         System.out.println("Enemy`s turn!");
         System.out.println("Please wait for the enemy to choose what he want to do");
         if (notEnoughManaForAbilities(enemy)) {
@@ -126,7 +126,7 @@ public class EnemyFight {
 
         switch (choice) {
             case 1:
-                normalAttack(character, enemy, turn);
+                normalAttack(character, enemy, 1);
                 break;
             case 2:
                 useAbilityEnemy(character, enemy);
@@ -148,9 +148,9 @@ public class EnemyFight {
      */
     public static void normalAttack(Character character, Enemy enemy, int turn) {
         if (turn == 2) {
-            enemy.setHealth(enemy.getHealth() - character.getDamage());
+            enemy.receiveDamage(character.getDamage());
         } else {
-            character.setHealth(character.getHealth() - enemy.dealDamage());
+            character.receiveDamage(enemy.getDamage());
         }
 
         if (character.getHealth() <= 0) {
@@ -206,7 +206,7 @@ public class EnemyFight {
      * @param character the player`s character
      * @param enemy the generated enemy
      */
-    private void useAbilityEnemy(Character character, Enemy enemy) {
+    private static void useAbilityEnemy(Character character, Enemy enemy) {
         do {
             choice = rand.nextInt(enemy.getSpells().size());
         } while (hasEnoughMana(enemy));
@@ -225,7 +225,7 @@ public class EnemyFight {
      * @param character the entity to be verified
      * @return if the character verified has enough mana to use the chosen ability
      */
-    private boolean hasEnoughMana(Entity character) {
+    private static boolean hasEnoughMana(Entity character) {
         return character.getMana() < character.getSpells().get(choice).getMana();
     }
 
@@ -233,7 +233,7 @@ public class EnemyFight {
      * @param character the entity to be verified
      * @return if the character verified has enough mana to let him choose an ability from list
      */
-    private boolean notEnoughManaForAbilities(Entity character) {
+    public static boolean notEnoughManaForAbilities(Entity character) {
         int min = character.getMana();
         for (Spell spell : character.getSpells()) {
             if (spell.getMana() < min) {

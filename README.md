@@ -1,8 +1,7 @@
 <<<<<<< Updated upstream
 TODOS
 
-de facut integrarea comenzilor, attackEnemy, UseSpellEnemy,
-verificare daca moare cineva
+de facut variabila globala pentru max power si strenght
 
 DE INTREBAT NEAPARAT DESPRE FACTORY DESIGN
 =======

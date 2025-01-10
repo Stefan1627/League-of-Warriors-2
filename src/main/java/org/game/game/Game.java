@@ -19,7 +19,7 @@ public class Game {
     private static final int MIN_NUM_OF_CELLS = 8;
     private static final int MAX_MAP_SIZE = 10;
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final Random RANDOM = new Random();
+    public static final Random RANDOM = new Random();
     public ArrayList<Account> accounts;
     private Grid map;
     private Account currAccount;
@@ -123,7 +123,7 @@ public class Game {
 
         // if the program reaches this point that means that the player`s
         // character died and the player should choose again a character to play with
-        System.out.println("Game Over----------------------------------------------");
+        System.out.println("Game Over");
         resetGame = true;
         gameOver = false;
         run(accounts, comingFromTest);
